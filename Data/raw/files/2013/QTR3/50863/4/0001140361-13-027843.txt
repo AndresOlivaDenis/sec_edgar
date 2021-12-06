@@ -1,0 +1,338 @@
+<SEC-DOCUMENT>0001140361-13-027843.txt : 20130710
+<SEC-HEADER>0001140361-13-027843.hdr.sgml : 20130710
+<ACCEPTANCE-DATETIME>20130710155453
+ACCESSION NUMBER:		0001140361-13-027843
+CONFORMED SUBMISSION TYPE:	4
+PUBLIC DOCUMENT COUNT:		1
+CONFORMED PERIOD OF REPORT:	20130709
+FILED AS OF DATE:		20130710
+DATE AS OF CHANGE:		20130710
+
+ISSUER:		
+
+	COMPANY DATA:	
+		COMPANY CONFORMED NAME:			Clearwire Corp /DE
+		CENTRAL INDEX KEY:			0001442505
+		STANDARD INDUSTRIAL CLASSIFICATION:	COMMUNICATION SERVICES, NEC [4899]
+		IRS NUMBER:				000000000
+		STATE OF INCORPORATION:			DE
+		FISCAL YEAR END:			1231
+
+	BUSINESS ADDRESS:	
+		STREET 1:		1475 120TH AVE NE
+		CITY:			BELLEVUE
+		STATE:			WA
+		ZIP:			98005
+		BUSINESS PHONE:		425-216-7600
+
+	MAIL ADDRESS:	
+		STREET 1:		1475 120TH AVE NE
+		CITY:			BELLEVUE
+		STATE:			WA
+		ZIP:			98005
+
+	FORMER COMPANY:	
+		FORMER CONFORMED NAME:	New Clearwire CORP
+		DATE OF NAME CHANGE:	20080811
+
+REPORTING-OWNER:	
+
+	OWNER DATA:	
+		COMPANY CONFORMED NAME:			INTEL CORP
+		CENTRAL INDEX KEY:			0000050863
+		STANDARD INDUSTRIAL CLASSIFICATION:	SEMICONDUCTORS & RELATED DEVICES [3674]
+		STATE OF INCORPORATION:			DE
+		FISCAL YEAR END:			1231
+
+	FILING VALUES:
+		FORM TYPE:		4
+		SEC ACT:		1934 Act
+		SEC FILE NUMBER:	001-34196
+		FILM NUMBER:		13961939
+
+	BUSINESS ADDRESS:	
+		STREET 1:		2200 MISSION COLLEGE BLVD
+		STREET 2:		RNB-4-151
+		CITY:			SANTA CLARA
+		STATE:			CA
+		ZIP:			95054
+		BUSINESS PHONE:		4087658080
+
+	MAIL ADDRESS:	
+		STREET 1:		2200 MISSION COLLEGE BLVD
+		STREET 2:		RNB-4-151
+		CITY:			SANTA CLARA
+		STATE:			CA
+		ZIP:			95054
+</SEC-HEADER>
+<DOCUMENT>
+<TYPE>4
+<SEQUENCE>1
+<FILENAME>doc1.xml
+<DESCRIPTION>FORM 4
+<TEXT>
+<XML>
+<?xml version="1.0"?>
+<ownershipDocument>
+
+    <schemaVersion>X0306</schemaVersion>
+
+    <documentType>4</documentType>
+
+    <periodOfReport>2013-07-09</periodOfReport>
+
+    <notSubjectToSection16>1</notSubjectToSection16>
+
+    <issuer>
+        <issuerCik>0001442505</issuerCik>
+        <issuerName>Clearwire Corp /DE</issuerName>
+        <issuerTradingSymbol>CLWR</issuerTradingSymbol>
+    </issuer>
+
+    <reportingOwner>
+        <reportingOwnerId>
+            <rptOwnerCik>0000050863</rptOwnerCik>
+            <rptOwnerName>INTEL CORP</rptOwnerName>
+        </reportingOwnerId>
+        <reportingOwnerAddress>
+            <rptOwnerStreet1>2200 MISSION COLLEGE BLVD</rptOwnerStreet1>
+            <rptOwnerStreet2>RNB-4-151</rptOwnerStreet2>
+            <rptOwnerCity>SANTA CLARA</rptOwnerCity>
+            <rptOwnerState>CA</rptOwnerState>
+            <rptOwnerZipCode>95054</rptOwnerZipCode>
+            <rptOwnerStateDescription></rptOwnerStateDescription>
+        </reportingOwnerAddress>
+        <reportingOwnerRelationship>
+            <isDirector>0</isDirector>
+            <isOfficer>0</isOfficer>
+            <isTenPercentOwner>1</isTenPercentOwner>
+            <isOther>0</isOther>
+            <officerTitle></officerTitle>
+            <otherText></otherText>
+        </reportingOwnerRelationship>
+    </reportingOwner>
+
+    <nonDerivativeTable>
+        <nonDerivativeTransaction>
+            <securityTitle>
+                <value>Class A Common Stock, par value $0.0001 per share</value>
+            </securityTitle>
+            <transactionDate>
+                <value>2013-07-09</value>
+            </transactionDate>
+            <deemedExecutionDate></deemedExecutionDate>
+            <transactionCoding>
+                <transactionFormType>4</transactionFormType>
+                <transactionCode>C</transactionCode>
+                <equitySwapInvolved>0</equitySwapInvolved>
+                <footnoteId id="F1"/>
+            </transactionCoding>
+            <transactionAmounts>
+                <transactionShares>
+                    <value>65644812</value>
+                    <footnoteId id="F1"/>
+                </transactionShares>
+                <transactionPricePerShare>
+                    <footnoteId id="F1"/>
+                </transactionPricePerShare>
+                <transactionAcquiredDisposedCode>
+                    <value>A</value>
+                </transactionAcquiredDisposedCode>
+            </transactionAmounts>
+            <postTransactionAmounts>
+                <sharesOwnedFollowingTransaction>
+                    <value>94076878</value>
+                    <footnoteId id="F3"/>
+                </sharesOwnedFollowingTransaction>
+            </postTransactionAmounts>
+            <ownershipNature>
+                <directOrIndirectOwnership>
+                    <value>I</value>
+                </directOrIndirectOwnership>
+                <natureOfOwnership>
+                    <value>See Footnote</value>
+                    <footnoteId id="F4"/>
+                </natureOfOwnership>
+            </ownershipNature>
+        </nonDerivativeTransaction>
+        <nonDerivativeTransaction>
+            <securityTitle>
+                <value>Class A Common Stock, par value $0.0001 per share</value>
+            </securityTitle>
+            <transactionDate>
+                <value>2013-07-09</value>
+            </transactionDate>
+            <deemedExecutionDate></deemedExecutionDate>
+            <transactionCoding>
+                <transactionFormType>4</transactionFormType>
+                <transactionCode>U</transactionCode>
+                <equitySwapInvolved>0</equitySwapInvolved>
+                <footnoteId id="F2"/>
+            </transactionCoding>
+            <transactionAmounts>
+                <transactionShares>
+                    <value>94076878</value>
+                    <footnoteId id="F2"/>
+                </transactionShares>
+                <transactionPricePerShare>
+                    <value>5.00</value>
+                </transactionPricePerShare>
+                <transactionAcquiredDisposedCode>
+                    <value>D</value>
+                </transactionAcquiredDisposedCode>
+            </transactionAmounts>
+            <postTransactionAmounts>
+                <sharesOwnedFollowingTransaction>
+                    <value>0</value>
+                </sharesOwnedFollowingTransaction>
+            </postTransactionAmounts>
+            <ownershipNature>
+                <directOrIndirectOwnership>
+                    <value>I</value>
+                </directOrIndirectOwnership>
+                <natureOfOwnership>
+                    <value>See Footnote</value>
+                    <footnoteId id="F4"/>
+                </natureOfOwnership>
+            </ownershipNature>
+        </nonDerivativeTransaction>
+    </nonDerivativeTable>
+
+    <derivativeTable>
+        <derivativeTransaction>
+            <securityTitle>
+                <value>Class B Common Stock, par value $0.0001 per share</value>
+            </securityTitle>
+            <conversionOrExercisePrice>
+                <footnoteId id="F5"/>
+            </conversionOrExercisePrice>
+            <transactionDate>
+                <value>2013-07-09</value>
+            </transactionDate>
+            <deemedExecutionDate></deemedExecutionDate>
+            <transactionCoding>
+                <transactionFormType>4</transactionFormType>
+                <transactionCode>C</transactionCode>
+                <equitySwapInvolved>0</equitySwapInvolved>
+            </transactionCoding>
+            <transactionAmounts>
+                <transactionShares>
+                    <value>65644812</value>
+                    <footnoteId id="F1"/>
+                </transactionShares>
+                <transactionPricePerShare>
+                    <footnoteId id="F6"/>
+                </transactionPricePerShare>
+                <transactionAcquiredDisposedCode>
+                    <value>D</value>
+                </transactionAcquiredDisposedCode>
+            </transactionAmounts>
+            <exerciseDate>
+                <footnoteId id="F5"/>
+            </exerciseDate>
+            <expirationDate>
+                <footnoteId id="F5"/>
+            </expirationDate>
+            <underlyingSecurity>
+                <underlyingSecurityTitle>
+                    <value>Class A Common Stock</value>
+                </underlyingSecurityTitle>
+                <underlyingSecurityShares>
+                    <value>65644812</value>
+                </underlyingSecurityShares>
+            </underlyingSecurity>
+            <postTransactionAmounts>
+                <sharesOwnedFollowingTransaction>
+                    <value>0</value>
+                </sharesOwnedFollowingTransaction>
+            </postTransactionAmounts>
+            <ownershipNature>
+                <directOrIndirectOwnership>
+                    <value>I</value>
+                </directOrIndirectOwnership>
+                <natureOfOwnership>
+                    <value>See Footnote</value>
+                    <footnoteId id="F7"/>
+                </natureOfOwnership>
+            </ownershipNature>
+        </derivativeTransaction>
+        <derivativeTransaction>
+            <securityTitle>
+                <value>Class B Common Interests of Clearwire Communications LLC</value>
+            </securityTitle>
+            <conversionOrExercisePrice>
+                <footnoteId id="F5"/>
+            </conversionOrExercisePrice>
+            <transactionDate>
+                <value>2013-07-09</value>
+            </transactionDate>
+            <deemedExecutionDate></deemedExecutionDate>
+            <transactionCoding>
+                <transactionFormType>4</transactionFormType>
+                <transactionCode>C</transactionCode>
+                <equitySwapInvolved>0</equitySwapInvolved>
+            </transactionCoding>
+            <transactionAmounts>
+                <transactionShares>
+                    <value>65644812</value>
+                    <footnoteId id="F1"/>
+                </transactionShares>
+                <transactionPricePerShare>
+                    <footnoteId id="F6"/>
+                </transactionPricePerShare>
+                <transactionAcquiredDisposedCode>
+                    <value>D</value>
+                </transactionAcquiredDisposedCode>
+            </transactionAmounts>
+            <exerciseDate>
+                <footnoteId id="F5"/>
+            </exerciseDate>
+            <expirationDate>
+                <footnoteId id="F5"/>
+            </expirationDate>
+            <underlyingSecurity>
+                <underlyingSecurityTitle>
+                    <value>Class A Common Stock</value>
+                </underlyingSecurityTitle>
+                <underlyingSecurityShares>
+                    <value>65644812</value>
+                </underlyingSecurityShares>
+            </underlyingSecurity>
+            <postTransactionAmounts>
+                <sharesOwnedFollowingTransaction>
+                    <value>0</value>
+                </sharesOwnedFollowingTransaction>
+            </postTransactionAmounts>
+            <ownershipNature>
+                <directOrIndirectOwnership>
+                    <value>I</value>
+                </directOrIndirectOwnership>
+                <natureOfOwnership>
+                    <value>See Footnote</value>
+                    <footnoteId id="F7"/>
+                </natureOfOwnership>
+            </ownershipNature>
+        </derivativeTransaction>
+    </derivativeTable>
+
+    <footnotes>
+        <footnote id="F1">Shares of Class B Common Stock of Clearwire Corporation (the &quot;Issuer&quot;) (together with Class B Common Interests in Clearwire Communications, LLC, a subsidiary of the Issuer (&quot;Clearwire LLC&quot;)) were exchanged by Intel Capital Wireless Investment Corporation 2008A (&quot;Intel Entity A&quot;), a wholly owned subsidiary of the Reporting Person, for no additional consideration, into shares of Class A Common Stock of the Issuer pursuant to into an Irrevocable Exchange Agreement entered into in connection with the Agreement and Plan of Merger (the &quot;Merger Agreement&quot;), dated December 17, 2012, among the Issuer, Sprint-Nextel Corporation (&quot;Sprint&quot;), Collie Acquisition Corp., a Delaware corporation and a wholly owned subsidiary of Sprint (&quot;Merger Sub&quot;).  The exchange was effective immediately prior to the effective time of the consummation of the merger under the Merger Agreement.</footnote>
+        <footnote id="F2">Pursuant to the terms of the Merger Agreement, upon consummation of the merger, Merger Sub merged with and into the Issuer, with the Issuer surviving the merger as a wholly owned subsidiary of Sprint, and each outstanding share of Class A Common Stock (other than any shares owned by Sprint, SoftBank Corp. or any of their respective subsidiaries) were cancelled and converted automatically into the right to receive $5.00 per share in cash, without interest.</footnote>
+        <footnote id="F3">The securities reported in Table I of this report were owned indirectly by the Reporting Person. Certain wholly owned subsidiaries of the Reporting Person previously entered into an Equityholders' Agreement dated as of November 28, 2008 (the &quot;Equityholders' Agreement&quot;) with the Issuer and the other parties thereto (collectively, the &quot;Unaffiliated Stockholders&quot;). By virtue of the Equityholders' Agreement, the Reporting Person and the Unaffiliated Stockholders may be deemed as of the date of this report to be members of a group under Section 13(d) of the Securities Exchange Act of 1934, as amended. The number of securities of the Issuer and Clearwire LLC, beneficially owned by the Reporting Person as reported herein does not include the holdings of any Unaffiliated Stockholders. The Reporting Person does not have any &quot;pecuniary interest&quot; in the securities of the Issuer or any of its subsidiaries owned by the Unaffiliated Stockholders.</footnote>
+        <footnote id="F4">The Class A Common Stock was beneficially owned (as of immediately prior to the merger) by the Reporting Person through Intel Capital Corporation, a Delaware corporation wholly-owned by the Reporting Person, Intel Capital (Cayman) Corporation, a Cayman Islands company wholly-owned by the Reporting Person, and Intel Entity A.</footnote>
+        <footnote id="F5">Each share of Class B Common Stock, together with one Clearwire Communications Class B Common Interest, is exchangeable at any time, subject to certain limited exceptions, at the option of the holder, into one fully paid and nonassessable share of Class A Common Stock of the Issuer, and has no expiration date.</footnote>
+        <footnote id="F6">For additional information regarding the acquisition of the Class B Common Stock of the Issuer and the Class B Common Interests of Clearwire LLC, see the Form 4s filed by the Reporting Person on December 2, 2008 and November 12, 2009, and the Schedule 13D filed by the Reporting Person on May 19, 2008, as amended to date.</footnote>
+        <footnote id="F7">The securities reported in Table II of this report were owned indirectly by the Reporting Person through Intel Entity A.</footnote>
+    </footnotes>
+
+    <remarks></remarks>
+
+    <ownerSignature>
+        <signatureName>/s/ Cary I. Klafter, Corporate Secretary</signatureName>
+        <signatureDate>2013-07-10</signatureDate>
+    </ownerSignature>
+</ownershipDocument>
+</XML>
+</TEXT>
+</DOCUMENT>
+</SEC-DOCUMENT>

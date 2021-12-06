@@ -1,0 +1,303 @@
+<SEC-DOCUMENT>0000899243-18-018791.txt : 20180702
+<SEC-HEADER>0000899243-18-018791.hdr.sgml : 20180702
+<ACCEPTANCE-DATETIME>20180702060532
+ACCESSION NUMBER:		0000899243-18-018791
+CONFORMED SUBMISSION TYPE:	4
+PUBLIC DOCUMENT COUNT:		1
+CONFORMED PERIOD OF REPORT:	20180629
+FILED AS OF DATE:		20180702
+DATE AS OF CHANGE:		20180702
+
+REPORTING-OWNER:	
+
+	OWNER DATA:	
+		COMPANY CONFORMED NAME:			CapitalG LP
+		CENTRAL INDEX KEY:			0001678225
+		STATE OF INCORPORATION:			DE
+		FISCAL YEAR END:			1231
+
+	FILING VALUES:
+		FORM TYPE:		4
+		SEC ACT:		1934 Act
+		SEC FILE NUMBER:	001-36269
+		FILM NUMBER:		18930756
+
+	BUSINESS ADDRESS:	
+		STREET 1:		1600 AMPITHEATRE PARKWAY
+		CITY:			MOUNTAIN VIEW
+		STATE:			CA
+		ZIP:			94043
+		BUSINESS PHONE:		650-253-0000
+
+	MAIL ADDRESS:	
+		STREET 1:		1600 AMPITHEATRE PARKWAY
+		CITY:			MOUNTAIN VIEW
+		STATE:			CA
+		ZIP:			94043
+
+	FORMER NAME:	
+		FORMER CONFORMED NAME:	Google Capital 2016, L.P.
+		DATE OF NAME CHANGE:	20160627
+
+REPORTING-OWNER:	
+
+	OWNER DATA:	
+		COMPANY CONFORMED NAME:			CapitalG GP LLC
+		CENTRAL INDEX KEY:			0001678226
+		STATE OF INCORPORATION:			DE
+		FISCAL YEAR END:			1231
+
+	FILING VALUES:
+		FORM TYPE:		4
+		SEC ACT:		1934 Act
+		SEC FILE NUMBER:	001-36269
+		FILM NUMBER:		18930757
+
+	BUSINESS ADDRESS:	
+		STREET 1:		1600 AMPITHEATRE PARKWAY
+		CITY:			MOUNTAIN VIEW
+		STATE:			CA
+		ZIP:			94043
+		BUSINESS PHONE:		650-253-0000
+
+	MAIL ADDRESS:	
+		STREET 1:		1600 AMPITHEATRE PARKWAY
+		CITY:			MOUNTAIN VIEW
+		STATE:			CA
+		ZIP:			94043
+
+	FORMER NAME:	
+		FORMER CONFORMED NAME:	Google Capital 2016 GP, L.L.C.
+		DATE OF NAME CHANGE:	20160627
+
+REPORTING-OWNER:	
+
+	OWNER DATA:	
+		COMPANY CONFORMED NAME:			Alphabet Inc.
+		CENTRAL INDEX KEY:			0001652044
+		STANDARD INDUSTRIAL CLASSIFICATION:	SERVICES-COMPUTER PROGRAMMING, DATA PROCESSING, ETC. [7370]
+		STATE OF INCORPORATION:			DE
+		FISCAL YEAR END:			1231
+
+	FILING VALUES:
+		FORM TYPE:		4
+		SEC ACT:		1934 Act
+		SEC FILE NUMBER:	001-36269
+		FILM NUMBER:		18930758
+
+	BUSINESS ADDRESS:	
+		STREET 1:		1600 AMPHITHEATRE PARKWAY
+		CITY:			MOUNTAIN VIEW
+		STATE:			CA
+		ZIP:			94043
+		BUSINESS PHONE:		650-253-0000
+
+	MAIL ADDRESS:	
+		STREET 1:		1600 AMPHITHEATRE PARKWAY
+		CITY:			MOUNTAIN VIEW
+		STATE:			CA
+		ZIP:			94043
+
+ISSUER:		
+
+	COMPANY DATA:	
+		COMPANY CONFORMED NAME:			Care.com Inc
+		CENTRAL INDEX KEY:			0001412270
+		STANDARD INDUSTRIAL CLASSIFICATION:	SERVICES-PERSONAL SERVICES [7200]
+		IRS NUMBER:				205785879
+		FISCAL YEAR END:			1231
+
+	BUSINESS ADDRESS:	
+		STREET 1:		77 FOURTH AVENUE
+		STREET 2:		5TH FLOOR
+		CITY:			Waltham
+		STATE:			MA
+		ZIP:			02451
+		BUSINESS PHONE:		781 642 5900
+
+	MAIL ADDRESS:	
+		STREET 1:		77 FOURTH AVENUE
+		STREET 2:		5TH FLOOR
+		CITY:			Waltham
+		STATE:			MA
+		ZIP:			02451
+</SEC-HEADER>
+<DOCUMENT>
+<TYPE>4
+<SEQUENCE>1
+<FILENAME>doc4.xml
+<DESCRIPTION>FORM 4 SUBMISSION
+<TEXT>
+<XML>
+<?xml version="1.0"?>
+<ownershipDocument>
+
+    <schemaVersion>X0306</schemaVersion>
+
+    <documentType>4</documentType>
+
+    <periodOfReport>2018-06-29</periodOfReport>
+
+    <notSubjectToSection16>0</notSubjectToSection16>
+
+    <issuer>
+        <issuerCik>0001412270</issuerCik>
+        <issuerName>Care.com Inc</issuerName>
+        <issuerTradingSymbol>CRCM</issuerTradingSymbol>
+    </issuer>
+
+    <reportingOwner>
+        <reportingOwnerId>
+            <rptOwnerCik>0001678225</rptOwnerCik>
+            <rptOwnerName>CapitalG LP</rptOwnerName>
+        </reportingOwnerId>
+        <reportingOwnerAddress>
+            <rptOwnerStreet1>1600 AMPHITHEATRE PARKWAY</rptOwnerStreet1>
+            <rptOwnerStreet2></rptOwnerStreet2>
+            <rptOwnerCity>MOUNTAIN VIEW</rptOwnerCity>
+            <rptOwnerState>CA</rptOwnerState>
+            <rptOwnerZipCode>94043</rptOwnerZipCode>
+            <rptOwnerStateDescription></rptOwnerStateDescription>
+        </reportingOwnerAddress>
+        <reportingOwnerRelationship>
+            <isDirector>0</isDirector>
+            <isOfficer>0</isOfficer>
+            <isTenPercentOwner>1</isTenPercentOwner>
+            <isOther>0</isOther>
+        </reportingOwnerRelationship>
+    </reportingOwner>
+
+    <reportingOwner>
+        <reportingOwnerId>
+            <rptOwnerCik>0001678226</rptOwnerCik>
+            <rptOwnerName>CapitalG GP LLC</rptOwnerName>
+        </reportingOwnerId>
+        <reportingOwnerAddress>
+            <rptOwnerStreet1>1600 AMPHITHEATRE PARKWAY</rptOwnerStreet1>
+            <rptOwnerStreet2></rptOwnerStreet2>
+            <rptOwnerCity>MOUNTAIN VIEW</rptOwnerCity>
+            <rptOwnerState>CA</rptOwnerState>
+            <rptOwnerZipCode>94043</rptOwnerZipCode>
+            <rptOwnerStateDescription></rptOwnerStateDescription>
+        </reportingOwnerAddress>
+        <reportingOwnerRelationship>
+            <isDirector>0</isDirector>
+            <isOfficer>0</isOfficer>
+            <isTenPercentOwner>1</isTenPercentOwner>
+            <isOther>0</isOther>
+        </reportingOwnerRelationship>
+    </reportingOwner>
+
+    <reportingOwner>
+        <reportingOwnerId>
+            <rptOwnerCik>0001652044</rptOwnerCik>
+            <rptOwnerName>Alphabet Inc.</rptOwnerName>
+        </reportingOwnerId>
+        <reportingOwnerAddress>
+            <rptOwnerStreet1>1600 AMPHITHEATRE PARKWAY</rptOwnerStreet1>
+            <rptOwnerStreet2></rptOwnerStreet2>
+            <rptOwnerCity>MOUNTAIN VIEW</rptOwnerCity>
+            <rptOwnerState>CA</rptOwnerState>
+            <rptOwnerZipCode>94043</rptOwnerZipCode>
+            <rptOwnerStateDescription></rptOwnerStateDescription>
+        </reportingOwnerAddress>
+        <reportingOwnerRelationship>
+            <isDirector>0</isDirector>
+            <isOfficer>0</isOfficer>
+            <isTenPercentOwner>1</isTenPercentOwner>
+            <isOther>0</isOther>
+        </reportingOwnerRelationship>
+    </reportingOwner>
+
+    <derivativeTable>
+        <derivativeTransaction>
+            <securityTitle>
+                <value>Convertible Preferred Stock, Series A</value>
+            </securityTitle>
+            <conversionOrExercisePrice>
+                <value>10.50</value>
+                <footnoteId id="F1"/>
+            </conversionOrExercisePrice>
+            <transactionDate>
+                <value>2018-06-29</value>
+            </transactionDate>
+            <deemedExecutionDate></deemedExecutionDate>
+            <transactionCoding>
+                <transactionFormType>4</transactionFormType>
+                <transactionCode>J</transactionCode>
+                <equitySwapInvolved>0</equitySwapInvolved>
+                <footnoteId id="F2"/>
+            </transactionCoding>
+            <transactionTimeliness>
+                <value></value>
+            </transactionTimeliness>
+            <transactionAmounts>
+                <transactionShares>
+                    <value>0</value>
+                    <footnoteId id="F2"/>
+                </transactionShares>
+                <transactionPricePerShare>
+                    <footnoteId id="F2"/>
+                </transactionPricePerShare>
+                <transactionAcquiredDisposedCode>
+                    <value>A</value>
+                </transactionAcquiredDisposedCode>
+            </transactionAmounts>
+            <exerciseDate>
+                <footnoteId id="F1"/>
+            </exerciseDate>
+            <expirationDate>
+                <footnoteId id="F1"/>
+            </expirationDate>
+            <underlyingSecurity>
+                <underlyingSecurityTitle>
+                    <value>Common Stock</value>
+                </underlyingSecurityTitle>
+                <underlyingSecurityShares>
+                    <value>4913210</value>
+                </underlyingSecurityShares>
+            </underlyingSecurity>
+            <postTransactionAmounts>
+                <sharesOwnedFollowingTransaction>
+                    <value>46350</value>
+                </sharesOwnedFollowingTransaction>
+            </postTransactionAmounts>
+            <ownershipNature>
+                <directOrIndirectOwnership>
+                    <value>I</value>
+                </directOrIndirectOwnership>
+                <natureOfOwnership>
+                    <value>See Footnote</value>
+                    <footnoteId id="F3"/>
+                </natureOfOwnership>
+            </ownershipNature>
+        </derivativeTransaction>
+    </derivativeTable>
+
+    <footnotes>
+        <footnote id="F1">The Convertible Preferred Stock, Series A, par value $0.001 per share (the &quot;Convertible Preferred Stock&quot;), is convertible at any time and has no expiration date. The Issuer may mandatorily convert the Convertible Preferred Stock into Common Stock (i) at any time after the seventh anniversary of June 29, 2016 (the &quot;Closing Date&quot;), and (ii) between the fifth anniversary and the seventh anniversary of the Closing Date, if certain conditions are met.</footnote>
+        <footnote id="F2">Holders of the Convertible Preferred Stock are entitled to cumulative dividends, whether or not declared by the Issuer's board of directors, at the rate of 5.50% per annum during the period from the Closing Date to the seventh anniversary of the Closing Date.  Such dividends are payable semi-annually in arrears on June 29 and December 29 of each year, by increasing the liquidation preference of each share of Convertible Preferred Stock.  Accordingly, the liquidation preference of each share of Convertible Preferred Stock increased on June 29, 2018, such that the number of shares of Convertible Preferred Stock held directly by CapitalG LP remained the same, but are now convertible into 4,913,210 shares of Common Stock.</footnote>
+        <footnote id="F3">CapitalG LP directly holds shares of the Convertible Preferred Stock. CapitalG GP LLC, the general partner of CapitalG LP, Alphabet Holdings LLC, the managing member of CapitalG GP LLC, XXVI Holdings Inc., the sole member of Alphabet Holdings LLC, and Alphabet Inc., the sole stockholder of XXVI Holdings Inc., may each be deemed to have the sole power to vote and dispose of these shares. Each of CapitalG GP LLC, Alphabet Holdings LLC, XXVI Holdings Inc., and Alphabet Inc. disclaims beneficial ownership of the Convertible Preferred Stock, except to the extent of any pecuniary interest therein.</footnote>
+    </footnotes>
+
+    <remarks></remarks>
+
+    <ownerSignature>
+        <signatureName>CapitalG LP, by CapitalG GP LLC, its General Partner, by Jeremiah Gordon, General Counsel and Secretary</signatureName>
+        <signatureDate>2018-06-29</signatureDate>
+    </ownerSignature>
+
+    <ownerSignature>
+        <signatureName>CapitalG GP LLC, by Jeremiah Gordon, General Counsel and Secretary</signatureName>
+        <signatureDate>2018-06-29</signatureDate>
+    </ownerSignature>
+
+    <ownerSignature>
+        <signatureName>Alphabet Inc., by Kathryn W. Hall, Assistant Secretary</signatureName>
+        <signatureDate>2018-06-29</signatureDate>
+    </ownerSignature>
+</ownershipDocument>
+</XML>
+</TEXT>
+</DOCUMENT>
+</SEC-DOCUMENT>

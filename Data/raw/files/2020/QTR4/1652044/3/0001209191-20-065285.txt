@@ -1,0 +1,253 @@
+<SEC-DOCUMENT>0001209191-20-065285.txt : 20201228
+<SEC-HEADER>0001209191-20-065285.hdr.sgml : 20201228
+<ACCEPTANCE-DATETIME>20201228210915
+ACCESSION NUMBER:		0001209191-20-065285
+CONFORMED SUBMISSION TYPE:	3
+PUBLIC DOCUMENT COUNT:		2
+CONFORMED PERIOD OF REPORT:	20201215
+FILED AS OF DATE:		20201228
+DATE AS OF CHANGE:		20201228
+
+REPORTING-OWNER:	
+
+	OWNER DATA:	
+		COMPANY CONFORMED NAME:			Schindler Philipp
+		CENTRAL INDEX KEY:			0001837573
+
+	FILING VALUES:
+		FORM TYPE:		3
+		SEC ACT:		1934 Act
+		SEC FILE NUMBER:	001-37580
+		FILM NUMBER:		201420070
+
+	MAIL ADDRESS:	
+		STREET 1:		C/O ALPHABET INC.
+		STREET 2:		1600 AMPHITHEATRE PKWY
+		CITY:			MOUNTAIN VIEW
+		STATE:			CA
+		ZIP:			94568
+
+ISSUER:		
+
+	COMPANY DATA:	
+		COMPANY CONFORMED NAME:			Alphabet Inc.
+		CENTRAL INDEX KEY:			0001652044
+		STANDARD INDUSTRIAL CLASSIFICATION:	SERVICES-COMPUTER PROGRAMMING, DATA PROCESSING, ETC. [7370]
+		IRS NUMBER:				611767919
+		STATE OF INCORPORATION:			DE
+		FISCAL YEAR END:			1231
+
+	BUSINESS ADDRESS:	
+		STREET 1:		1600 AMPHITHEATRE PARKWAY
+		CITY:			MOUNTAIN VIEW
+		STATE:			CA
+		ZIP:			94043
+		BUSINESS PHONE:		650-253-0000
+
+	MAIL ADDRESS:	
+		STREET 1:		1600 AMPHITHEATRE PARKWAY
+		CITY:			MOUNTAIN VIEW
+		STATE:			CA
+		ZIP:			94043
+</SEC-HEADER>
+<DOCUMENT>
+<TYPE>3
+<SEQUENCE>1
+<FILENAME>doc3.xml
+<DESCRIPTION>FORM 3 SUBMISSION
+<TEXT>
+<XML>
+<?xml version="1.0"?>
+<ownershipDocument>
+
+    <schemaVersion>X0206</schemaVersion>
+
+    <documentType>3</documentType>
+
+    <periodOfReport>2020-12-15</periodOfReport>
+
+    <noSecuritiesOwned>0</noSecuritiesOwned>
+
+    <issuer>
+        <issuerCik>0001652044</issuerCik>
+        <issuerName>Alphabet Inc.</issuerName>
+        <issuerTradingSymbol>GOOG</issuerTradingSymbol>
+    </issuer>
+
+    <reportingOwner>
+        <reportingOwnerId>
+            <rptOwnerCik>0001837573</rptOwnerCik>
+            <rptOwnerName>Schindler Philipp</rptOwnerName>
+        </reportingOwnerId>
+        <reportingOwnerAddress>
+            <rptOwnerStreet1>C/O ALPHABET INC.</rptOwnerStreet1>
+            <rptOwnerStreet2>1600 AMPHITHEATRE PRKW</rptOwnerStreet2>
+            <rptOwnerCity>MOUNTAIN VIEW</rptOwnerCity>
+            <rptOwnerState>CA</rptOwnerState>
+            <rptOwnerZipCode>94043</rptOwnerZipCode>
+            <rptOwnerStateDescription></rptOwnerStateDescription>
+        </reportingOwnerAddress>
+        <reportingOwnerRelationship>
+            <isDirector>0</isDirector>
+            <isOfficer>1</isOfficer>
+            <isTenPercentOwner>0</isTenPercentOwner>
+            <isOther>0</isOther>
+            <officerTitle>SVP, Chief Business Officer</officerTitle>
+        </reportingOwnerRelationship>
+    </reportingOwner>
+
+    <nonDerivativeTable>
+        <nonDerivativeHolding>
+            <securityTitle>
+                <value>Class C Capital Stock</value>
+            </securityTitle>
+            <postTransactionAmounts>
+                <sharesOwnedFollowingTransaction>
+                    <value>17648</value>
+                </sharesOwnedFollowingTransaction>
+            </postTransactionAmounts>
+            <ownershipNature>
+                <directOrIndirectOwnership>
+                    <value>D</value>
+                </directOrIndirectOwnership>
+            </ownershipNature>
+        </nonDerivativeHolding>
+        <nonDerivativeHolding>
+            <securityTitle>
+                <value>Class C Google Stock Units</value>
+                <footnoteId id="F1"/>
+            </securityTitle>
+            <postTransactionAmounts>
+                <sharesOwnedFollowingTransaction>
+                    <value>39502</value>
+                </sharesOwnedFollowingTransaction>
+            </postTransactionAmounts>
+            <ownershipNature>
+                <directOrIndirectOwnership>
+                    <value>D</value>
+                </directOrIndirectOwnership>
+            </ownershipNature>
+        </nonDerivativeHolding>
+        <nonDerivativeHolding>
+            <securityTitle>
+                <value>Class C Google Stock Units</value>
+                <footnoteId id="F2"/>
+            </securityTitle>
+            <postTransactionAmounts>
+                <sharesOwnedFollowingTransaction>
+                    <value>22830</value>
+                </sharesOwnedFollowingTransaction>
+            </postTransactionAmounts>
+            <ownershipNature>
+                <directOrIndirectOwnership>
+                    <value>D</value>
+                </directOrIndirectOwnership>
+            </ownershipNature>
+        </nonDerivativeHolding>
+    </nonDerivativeTable>
+
+    <footnotes>
+        <footnote id="F1">The Class C Google Stock Units (GSU) entitle the Reporting Person to receive one share of Alphabet Inc. Class C Capital Stock for each share underlying the GSU as GSU vest. 1/8th of GSU grant vested on June 25, 2020 and an additional 1/16th of the grant will vest quarterly on the 25th day of the month thereafter until the GSU are fully vested, subject to continued employment on the applicable vesting dates.</footnote>
+        <footnote id="F2">1/16th of GSU grant vested on March 25, 2018, and an additional 1/16th of the grant will vest quarterly on the 25th day of the month thereafter until the GSU are fully vested, subject to continued employment on the applicable vesting dates.</footnote>
+    </footnotes>
+
+    <remarks></remarks>
+
+    <ownerSignature>
+        <signatureName>/s/ Valentina Margulis, as Attorney-in-Fact for Philipp Schindler</signatureName>
+        <signatureDate>2020-12-28</signatureDate>
+    </ownerSignature>
+</ownershipDocument>
+</XML>
+</TEXT>
+</DOCUMENT>
+<DOCUMENT>
+<TYPE>EX-24.3_951924
+<SEQUENCE>2
+<FILENAME>poa.txt
+<DESCRIPTION>POA DOCUMENT
+<TEXT>
+POWER OF ATTORNEY
+
+	Know all by these presents, that the undersigned hereby constitutes and
+appoints each of Kathryn W. Hall, Kenneth Yi, Nancy Walker, Kendrick Vaughn,
+Valentina Margulis, and Fadillah Badar and such other persons as may be
+designated by the Corporate Secretary of Alphabet Inc. (the Company), or any of
+them signing singly, and with full power of substitution, the undersigned s true
+and lawful attorney-in-fact to:
+
+(1)	prepare, execute in the undersigned s name and on the undersigned s behalf,
+and submit to the U.S. Securities and Exchange Commission (the SEC) a Form ID,
+including amendments thereto, and any other documents necessary or appropriate
+to obtain codes and passwords enabling the undersigned to make electronic
+filings with the SEC of reports required by Section 16 of the Securities
+Exchange Act of 1934 or any rule or regulation of the SEC promulgated thereunder
+(the Securities Exchange Act), or any successor laws and/or regulations;
+
+(2)	execute for and on behalf of the undersigned, in the undersigned s capacity
+as an officer of the Company, Forms 3, 4, and 5 in accordance with Section 16 of
+the Securities Exchange Act and the rules hereunder and any other forms or
+reports the undersigned may be required to file in connection with the
+undersigned s ownership, acquisition, or disposition of the securities of the
+Company;
+
+(3)	do and perform any and all acts for and on behalf of the undersigned which
+may be necessary or desirable to complete and execute any such Form 3, 4, or 5,
+or other form or report, complete and execute any amendment or amendments
+thereto, and timely file such form or report with the SEC, any stock exchange,
+any national association, and such other person, agency or similar authority, as
+a consequence of the undersigned s ownership, acquisition or disposition of
+securities of the Company; and
+
+(4)	take any other action of any type whatsoever in connection with the
+foregoing which, in the opinion of such attorney-in-fact, may be of benefit to,
+in the best interest of, or legally required by, the undersigned, it being
+understood that the documents executed by such attorney-in-fact on behalf of the
+undersigned pursuant to this Power of Attorney shall be in such form and shall
+contain such terms and conditions as such attorney-in-fact may approve in such
+attorney-in-fact s discretion.
+
+	The undersigned hereby grants to each such attorney-in-fact full power and
+authority to do and perform any and every act and thing whatsoever requisite,
+necessary, or proper to be done in the exercise of any of the rights and powers
+herein granted, as fully to all intents and purposes as the undersigned might or
+could do if personally present, with full power of substitution or revocation,
+hereby ratifying and confirming all that such attorney-in-fact, or such
+attorney-in-fact s substitute or substitutes, shall lawfully do or cause to be
+done by virtue of this power of attorney and the rights and powers herein
+granted. The undersigned hereby ratifies and confirms all that the
+attorneys-in-fact and their agents shall do or cause to be done by virtue
+hereof. The undersigned acknowledges that the foregoing attorneys-in-fact, in
+serving in such capacity at the request of the undersigned, are not assuming,
+nor is the Company assuming, any of the undersigned s responsibilities to comply
+with Section 16 of the Securities Exchange Act. The undersigned agrees that each
+such attorney-in-fact herein may rely entirely on information furnished orally
+or in writing by the undersigned to such attorney-in-fact. The undersigned
+agrees to indemnify and hold harmless each such attorney-in-fact against any
+losses, claims, damages or liability (or actions in these respects) that arise
+out of or are based upon any untrue statements or omissions of necessary facts
+in the information provided by the undersigned to such attorney-in-fact for
+purposes of executing, acknowledging, delivering or filing Form 3, 4 or 5, Form
+IDs or any amendments thereto and agrees to reimburse the Company and such
+attorney-in-fact for any legal or other expenses reasonably incurred in
+connection with investigating or defending against any such loss, claim, damage,
+liability or action.
+
+	This Power of Attorney shall remain in full force and effect until (i) the
+undersigned is no longer required to file Forms 3, 4, and 5 with respect to the
+undersigned s holdings of and transactions in securities issued by the Company,
+(ii) earlier revoked by the undersigned in a signed writing delivered to the
+foregoing attorneys-in-fact; or (iii) superseded by a new power of attorney
+regarding the purposes outlined in the first paragraph hereof dated as of a
+later date.
+
+	IN WITNESS WHEREOF, the undersigned has caused this Power of Attorney to be
+executed as of December 13, 2020.
+
+
+/s/ Philipp Schindler
+______________________
+Philipp Schindler
+</TEXT>
+</DOCUMENT>
+</SEC-DOCUMENT>

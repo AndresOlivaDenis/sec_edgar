@@ -18,14 +18,16 @@ from sec_edgar.data.preprocessing.preprocess_master_idx import pre_process_maste
 
 class Process4FormFiles(object):
 
-    def __init__(self, form4_df, include_derivative_transaction=False):
+    def __init__(self,
+                 form4_df,
+                 include_derivative_transaction=False,
+                 transaction_codes_lst=None,
+                 sub_select_dict={'directOrIndirectOwnership': "D"}):
+
         self.form4_df = form4_df.copy()
 
-        if include_derivative_transaction:
-            sub_select_dict = {'directOrIndirectOwnership': "D"}
-        else:
-            sub_select_dict = {'transaction_type': "nonDerivativeTransaction",
-                               'directOrIndirectOwnership': "D"}
+        if not include_derivative_transaction:
+            sub_select_dict['transaction_type'] = "nonDerivativeTransaction"
 
         to_drop_columns = ['documentType',
                            'issuerCik',
@@ -37,16 +39,21 @@ class Process4FormFiles(object):
         self.form4_process_0 = self.init_proccess_form4_df(form4_df,
                                                            sub_select_dict=sub_select_dict,
                                                            to_drop_columns=to_drop_columns,
-                                                           as_type_dict=as_type_dict)
+                                                           as_type_dict=as_type_dict,
+                                                           transaction_codes_lst=transaction_codes_lst)
 
     def init_proccess_form4_df(self,
                                form4_df,
                                sub_select_dict,
                                to_drop_columns,
-                               as_type_dict):
+                               as_type_dict,
+                               transaction_codes_lst=None):
         form4_process_0 = form4_df.copy()
         for column, value in sub_select_dict.items():
             form4_process_0 = form4_process_0[form4_process_0[column] == value]
+
+        if transaction_codes_lst is not None:
+            form4_process_0 = form4_process_0[form4_process_0['transactionCode'].isin(transaction_codes_lst)]
 
         form4_process_0 = form4_process_0.drop(columns=to_drop_columns)
         form4_process_0 = form4_process_0.astype(as_type_dict)
@@ -56,12 +63,10 @@ class Process4FormFiles(object):
         form4_process_0.loc[is_disposure, 'transactionSharesAdjust'] = -form4_process_0.loc[
             is_disposure, 'transactionSharesAdjust']
 
-        # TODO: review this!
-        #   Add a way to see if trade is relevant (to avoid examples as DOCU, where buy but actually to low shares amounts! ) % relative to all company shares ?
-        #   Share size > 1000 ?
         sOFT = form4_process_0.sharesOwnedFollowingTransaction.astype('float')
         sOFT += is_disposure * 1 * form4_process_0.transactionShares.astype('float')
         form4_process_0['shares_percent_changes'] = form4_process_0.transactionSharesAdjust/sOFT
+        form4_process_0.loc[form4_process_0['shares_percent_changes'] > 1, 'shares_percent_changes'] = 1
 
         form4_process_0['index_id'] = form4_process_0.index.to_list()
 
@@ -141,7 +146,6 @@ class Process4FormFiles(object):
         pass
 
 
-
 if __name__ == '__main__':
     # master_idx_contents Inputs --------------------------------------------------------------------------------------
     companies_cik_list = ['320193', '1652044', '50863']
@@ -181,6 +185,20 @@ if __name__ == '__main__':
     print(form4_df_dt.groupby('transactionCode').transactionCode.count())
     # print(form4_df_dt.groupby('securityTitle').securityTitle.unique())
 
+    p4ff_ndt_tcl = Process4FormFiles(form4_df, include_derivative_transaction=False, transaction_codes_lst=['P'])
+    processed_4form_df_ri_day_ndt_tcl = p4ff_ndt_tcl.get_transactions_by_day()
+
+    print(p4ff_ndt_tcl.form4_process_0.groupby('transactionCode').transactionCode.count())
+
+    # TODO: eval and make plots about this!
+    p4ff_only_dts = Process4FormFiles(form4_df,
+                                      include_derivative_transaction=True,
+                                      sub_select_dict={'directOrIndirectOwnership': "D",
+                                                       'transaction_type': 'derivativeTransaction'})
+    processed_4form_df_ri_day_only_dts = p4ff_only_dts.get_transactions_by_day()
+
+    print(p4ff_only_dts.form4_process_0.groupby('transactionCode').transactionCode.count())
+    np.maximum([1, 2, -5, -0.5], -1)
 
 
 

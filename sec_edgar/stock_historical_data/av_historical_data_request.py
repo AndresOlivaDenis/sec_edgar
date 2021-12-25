@@ -1,4 +1,7 @@
 import os
+import random
+import time
+
 import numpy as np
 import requests
 import pandas as pd
@@ -51,6 +54,11 @@ class AVHistoricalDataRequest(object):
                                                 '6. volume': 'int64',
                                                 '7. dividend amount': 'float64',
                                                 '8. split coefficient': 'float64'})
+            sleep_interval = [0.5, 2]
+            sleep_time = 60.0/5 + random.random() * (sleep_interval[1] - sleep_interval[0]) + sleep_interval[0]
+            if verbose:
+                print("\t Request complete, going to sleep for about: {} [s]".format(sleep_time))
+            time.sleep(sleep_time)
 
         for i in range(9):
             to_remove = "{}. ".format(i)
@@ -80,6 +88,9 @@ class AVHistoricalDataRequest(object):
         else:
             adjusted_dates = dates.copy()
 
+        if adjusted_dates.dtype == 'datetime64[ns]':
+            adjusted_dates = adjusted_dates.astype("str")
+
         available_dates = self.data_df.index
         isin_dates = np.isin(adjusted_dates, available_dates)
         if isin_dates.all():
@@ -88,6 +99,7 @@ class AVHistoricalDataRequest(object):
         available_dates_sorted = available_dates.sort_values(ascending=False)
         missing_dates = adjusted_dates[~isin_dates]
         adjusted_missing_dates = []
+
         for missing_date in missing_dates:
             prev_dates = available_dates_sorted < missing_date
             adjusted_missing_dates.append(available_dates_sorted[prev_dates][0])
@@ -162,6 +174,8 @@ if __name__ == '__main__':
                                                   api_key=api_key_,
                                                   look_up_path=path_default_files,
                                                   update_in_look_up_path=True)
+
+    "3TYL"
 
     data_df_ = amd_historical_data.data_df.copy()
 

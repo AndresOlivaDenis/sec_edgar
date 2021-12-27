@@ -16,7 +16,7 @@ class AVHistoricalDataRequest(object):
         self.api_key = api_key
         self.look_up_path = look_up_path
         self.update_in_look_up_path = update_in_look_up_path
-        self.url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY' \
+        self.url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED' \
                    '&symbol={symbol}&outputsize=full&apikey={api_key}'.format(symbol=symbol, api_key=api_key)
 
         self.file_path = None
@@ -50,7 +50,10 @@ class AVHistoricalDataRequest(object):
                                                 '2. high': 'float64',
                                                 '3. low': 'float64',
                                                 '4. close': 'float64',
-                                                '5. volume': 'int64'})
+                                                '5. adjusted close': 'float64',
+                                                '6. volume': 'int64',
+                                                '7. dividend amount': 'float64',
+                                                '8. split coefficient': 'float64'})
             sleep_interval = [0.5, 2]
             sleep_time = 60.0/5 + random.random() * (sleep_interval[1] - sleep_interval[0]) + sleep_interval[0]
             if verbose:
@@ -89,9 +92,6 @@ class AVHistoricalDataRequest(object):
             adjusted_dates = adjusted_dates.astype("str")
 
         available_dates = self.data_df.index
-        if available_dates.dtype == 'datetime64[ns]':
-            available_dates = available_dates.astype("str")
-
         isin_dates = np.isin(adjusted_dates, available_dates)
         if isin_dates.all():
             return adjusted_dates
@@ -100,19 +100,14 @@ class AVHistoricalDataRequest(object):
         missing_dates = adjusted_dates[~isin_dates]
         adjusted_missing_dates = []
 
-        # print("self.symbol: ", self.symbol)
         for missing_date in missing_dates:
-            print("missing_date: ", missing_date)
-            print("available_dates_sorted: \n", available_dates_sorted)
             prev_dates = available_dates_sorted < missing_date
-            print("available_dates_sorted[prev_dates]: \n", available_dates_sorted[prev_dates])
-            print("self.symbol: ", self.symbol)
             adjusted_missing_dates.append(available_dates_sorted[prev_dates][0])
 
         adjusted_dates.loc[~isin_dates] = adjusted_missing_dates
         return adjusted_dates
 
-    def get_shifted_ahead_series(self, dates, periods_ahead, column='close', name=None):
+    def get_shifted_ahead_series(self, dates, periods_ahead, column='adjusted close', name=None):
         """
         Returns shifted ahead (or "futures") series values
         """
@@ -127,7 +122,7 @@ class AVHistoricalDataRequest(object):
         shifted_series.index = dates
         return shifted_series
 
-    def _get_pct_change_ahead_series(self, dates, periods_ahead, column='close', name=None):
+    def _get_pct_change_ahead_series(self, dates, periods_ahead, column='adjusted close', name=None):
         """
         Returns pct_change with shifted ahead (or "futures") series values
         """
@@ -144,7 +139,7 @@ class AVHistoricalDataRequest(object):
         shifted_series.index = dates
         return shifted_series
 
-    def get_pct_change_ahead_series(self, dates, periods_ahead, column='close', name=None):
+    def get_pct_change_ahead_series(self, dates, periods_ahead, column='adjusted close', name=None):
         """
         Returns pct_change with shifted ahead (or "futures") series values
         """
@@ -170,7 +165,7 @@ class MultiSymbolAVHistoricalDataRequest(object):
 if __name__ == '__main__':
     api_key_ = "NIAI6K1QQ0KEXACB"
 
-    intc_historical_data = AVHistoricalDataRequest(symbol="DOCU",
+    intc_historical_data = AVHistoricalDataRequest(symbol="INTC",
                                                    api_key=api_key_,
                                                    look_up_path=path_default_files,
                                                    update_in_look_up_path=True)

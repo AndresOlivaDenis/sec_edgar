@@ -19,10 +19,10 @@ cik_mu = CikMappingUtil(company_ticket_file_path=path_company_ticket_file)
 companies_symbol_list = ['GOOG', 'INTC', 'AAPL', 'AMD', 'BP', 'V', 'F', 'CVX', 'DAL', 'RCL', 'MSFT', 'FB', 'ADBE',
                          'PEP', 'CSCO', 'SBUX']
 
-companies_symbol_list_ = ['TSLA', 'JPM', 'HD', 'UNH', 'JNJ', 'PG', 'BAC', 'PFE', 'MA', 'DIS', 'CMCSA', 'NKE',
+companies_symbol_list = ['TSLA', 'JPM', 'HD', 'UNH', 'JNJ', 'PG', 'BAC', 'PFE', 'MA', 'DIS', 'CMCSA', 'NKE',
                          'VZ', 'ABBV', 'KO']
 
-companies_symbol_list_ = ['XOM', 'COST', 'QCOM', 'DHR', 'DHR', 'WMT', 'WFC', 'LLY', 'MCD', 'MRK', 'INTU', 'TXN',
+companies_symbol_list = ['XOM', 'COST', 'QCOM', 'DHR', 'DHR', 'WMT', 'WFC', 'LLY', 'MCD', 'MRK', 'INTU', 'TXN',
                          'LOW', 'NEE', 'T', 'LIN', 'UNP', 'UPS', 'ORCL', 'MDT', 'MS', 'HON', 'PM']
 
 
@@ -163,6 +163,42 @@ print("Seems Good: {} \n ".format(((form4_df_ri_day_pos[label_eval] >= 0.0) * 1.
 print("Equal Zero {} mean: ".format(label_eval), form4_df_ri_day_eq_zero[label_eval].mean())
 print("Equal Zero {} count: ".format(label_eval), ((form4_df_ri_day_eq_zero[label_eval] >= 0.0) * 1.).mean())
 
+
+
+import pandas as pd
+
+# TODO: define a funcion for this, and create a notebook
+
+
+def eval_performance_metric_01(processed_form4_df, label_eval_list):
+    """
+    Evaluate processed_form4_df performance.
+    Positive transactionSharesAdjust are evaluated under differents labels_eval.
+    All transactions are considered as benchmark.
+    Means are computed first by CIK grouping and them overall mean.
+
+    Returns:
+        performance_cik_df_dict -> dict of pd.DataFrame performance per label eval list
+        labels_performance_df -> overall performance per label eval list
+    """
+    processed_form4_df_pos = processed_form4_df[processed_form4_df['transactionSharesAdjust'] > 0]
+    performance_cik_df_dict = dict()
+    labels_performance_df = pd.DataFrame()
+    # Returns:
+    #   - d
+    # TODO
+    pass
+
+label_eval = 'Price pct_change (5)'   #, 21, 63, 126, 252
+tests_grouping = pd.DataFrame()
+tests_grouping['Pos_mean'] = form4_df_ri_day_pos.groupby('CIK')[label_eval].mean()
+tests_grouping['Pos data count'] = form4_df_ri_day_pos.groupby('CIK')[label_eval].count()
+tests_grouping['all_mean'] = processed_form4_df_ri_day.groupby('CIK')[label_eval].mean()
+tests_grouping['all data count'] = processed_form4_df_ri_day.groupby('CIK')[label_eval].count()
+
+tests_grouping['is_greater'] = tests_grouping['Pos_mean'] > tests_grouping['all_mean']
+print(tests_grouping)
+print(tests_grouping.mean())
 
 # TODO: add confidence interval. Statistically significant evaluation of ">"  NOTEBOOK
 

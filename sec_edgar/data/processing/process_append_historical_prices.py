@@ -75,6 +75,30 @@ class ProcessAppendHistoricalPrices(object):
                 processed_form4_df.loc[processed_form4_df[self.cik_column] == cik, label] = sas.copy().values
         return processed_form4_df.copy()
 
+    def append_pct_changes_ahead_in_shifted_dates(self, periods_ahead_list, dates_timedelta_list, form4_df=None):
+        """
+        dates_shift -> pd.Timedelta, ie: pd.Timedelta("1 days")
+        """
+        processed_form4_df = self.form4_df_0.copy()
+        if form4_df is not None:
+            processed_form4_df = form4_df.copy()
+
+        for period_ahead in periods_ahead_list:
+            for dates_timedelta in dates_timedelta_list:
+                label = "Shifted Price pct_change ({})({})".format(period_ahead, dates_timedelta)
+                processed_form4_df[label] = None
+
+        for cik in self.cik_series:
+            for period_ahead in periods_ahead_list:
+                for dates_timedelta in dates_timedelta_list:
+                    dates = self.cik_dates[cik] + dates_timedelta
+                    label = "Shifted Price pct_change ({})({})".format(period_ahead, dates_timedelta)
+                    sas = self.hdr_dict[cik].get_pct_change_ahead_series(dates=dates,
+                                                                         periods_ahead=period_ahead,
+                                                                         name=label)
+                    processed_form4_df.loc[processed_form4_df[self.cik_column] == cik, label] = sas.copy().values
+        return processed_form4_df.copy()
+
 
 if __name__ == '__main__':
     # master_idx_contents Inputs --------------------------------------------------------------------------------------
@@ -114,15 +138,19 @@ if __name__ == '__main__':
     pahp_ri_day = ProcessAppendHistoricalPrices(form4_df=processed_4form_df_ri_day)
     processed_form4_df_ri_day = pahp_ri_day.append_prices_shifted_ahead(periods_ahead_list=[0, 5, 20])
     processed_form4_df_ri_day = pahp_ri_day.append_pct_changes_ahead(periods_ahead_list=[5, 21, 63, 126, 252],
-                                                             form4_df=processed_form4_df_ri_day)
+                                                                     form4_df=processed_form4_df_ri_day)
 
     p4ff_2 = Process4FormFiles(processed_form4_df_, include_derivative_transaction=False)
     processed_4form_df_ri_2 = p4ff_2.get_transactions_adjusted_by_file_names()
     processed_4form_df_ri_day_2 = p4ff_2.get_transactions_by_day()
 
-
+    processed_form4_sahd = pahp_ri_day.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[5, 20],
+                                                                                 dates_timedelta_list=[
+                                                                                     pd.Timedelta("5 days"),
+                                                                                     pd.Timedelta("-5 days")],
+                                                                                 form4_df=None)
     # Tests: (To mov
-    
+
     # TODO:
     #   Notebook to "study, check, validate and get ideas from data)
     #      in datetime plots (several subplots, date in x):
@@ -133,4 +161,3 @@ if __name__ == '__main__':
     #   Validate:
     #       Plot historical prices (direct from alphavantage)
     #       and also macthed dates - prices from here!!
-

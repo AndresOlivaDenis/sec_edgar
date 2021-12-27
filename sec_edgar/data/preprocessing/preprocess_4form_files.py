@@ -98,42 +98,51 @@ def pre_process_4form_archive_files(master_idx_contents,
             time.sleep(sleep_time)
 
         pre_size = len(documents_content_list)
-        with open(path_file) as f:
-            print("\t Opening file")
-            file_content = f.read()
-            content_split_1 = file_content.split("</SEC-HEADER>")
-            sec_header = content_split_1[0]
-            sec_documents = content_split_1[1].split("</SEC-DOCUMENT>")[0]
-            documents = sec_documents.split("</DOCUMENT>")
-            for document in documents:
-                if "<XML>" in document:
-                    print("\t Reading xml form content")
-                    xml_split = document.split("<XML>")
-                    non_xml_content = xml_split[0]
-                    xml_content = xml_split[1].split("</XML>")[0]
-                    for line in non_xml_content.split("\n"):
-                        if "<TYPE>" in line:
-                            document_type = line.replace("<TYPE>", "")
-                        if "<FILENAME>" in line:
-                            document_file_name = line.replace("<FILENAME>", "")
-                        if "<DESCRIPTION>" in line:
-                            document_description = line.replace("<DESCRIPTION>", "")
-                    if xml_content[0:1] == '\n':
-                        xml_content = xml_content[1:]
+        try:
+            with open(path_file) as f:
+                print("\t Opening file")
+                file_content = f.read()
+                content_split_1 = file_content.split("</SEC-HEADER>")
+                sec_header = content_split_1[0]
+                sec_documents = content_split_1[1].split("</SEC-DOCUMENT>")[0]
+                documents = sec_documents.split("</DOCUMENT>")
+                for document in documents:
+                    if "<XML>" in document:
+                        print("\t Reading xml form content")
+                        xml_split = document.split("<XML>")
+                        non_xml_content = xml_split[0]
+                        xml_content = xml_split[1].split("</XML>")[0]
+                        for line in non_xml_content.split("\n"):
+                            if "<TYPE>" in line:
+                                document_type = line.replace("<TYPE>", "")
+                            if "<FILENAME>" in line:
+                                document_file_name = line.replace("<FILENAME>", "")
+                            if "<DESCRIPTION>" in line:
+                                document_description = line.replace("<DESCRIPTION>", "")
+                        if xml_content[0:1] == '\n':
+                            xml_content = xml_content[1:]
 
-                    root_xml = ET.fromstring(xml_content)
-                    general_information = process_form_general_information(root_xml)
-                    securities_list = process_form_securities_tables(root_xml)
+                        root_xml = ET.fromstring(xml_content)
+                        general_information = process_form_general_information(root_xml)
+                        securities_list = process_form_securities_tables(root_xml)
 
-                    print("\t Number of secutiries in form: {}".format(len(securities_list)))
+                        print("\t Number of secutiries in form: {}".format(len(securities_list)))
 
-                    # for each derivative and non derivative transaction:
-                    for securities in securities_list:
-                        documents_content_list.append({**row.to_dict(),
-                                                       **dict(doc_name=file_name.replace(".txt", ""),
-                                                              file_url='https://www.sec.gov/Archives/' + file_name),
-                                                       **general_information,
-                                                       **securities})
+                        # for each derivative and non derivative transaction:
+                        for securities in securities_list:
+                            documents_content_list.append({**row.to_dict(),
+                                                           **dict(doc_name=file_name.replace(".txt", ""),
+                                                                  file_url='https://www.sec.gov/Archives/' + file_name),
+                                                           **general_information,
+                                                           **securities})
+        except Exception as e:
+            warnings.simplefilter("always")
+            warnings.warn("\n Exeption raised in preprocessing file. TODO: REVIEW! ", UserWarning)
+            os.rename(path_file, path_file + "_ERROR_ ")
+
+            sleep_time = 10
+            warnings.warn("\n Sleeping for about : {} [s]".format(sleep_time), UserWarning)
+            time.sleep(sleep_time)
         if len(documents_content_list) == pre_size:
             warnings.simplefilter("always")
             warnings.warn("\n File preprocessing does not added new secutiries. TODO: REVIEW! ", UserWarning)

@@ -31,13 +31,16 @@ if __name__ == '__main__':
 
     path_symbols_file = base_path + "/Data/symbols/nasdaq_symbols.csv"
     symbols_file_df = pd.read_csv(path_symbols_file)
-    # companies_symbol_list += symbols_file_df['Symbol'].to_list()
+    companies_symbol_list += symbols_file_df['Symbol'].to_list()
 
-    path_symbols_file = base_path + "/Data/symbols/dji_symbols.csv"
+    path_symbols_file = base_path + "/Data/symbols/sp500_symbols.csv"
     symbols_file_df = pd.read_csv(path_symbols_file)
-    # companies_symbol_list += symbols_file_df['Symbol'].to_list()
+    companies_symbol_list += symbols_file_df['Symbol'].to_list()
 
-    companies_symbol_list = list(set(companies_symbol_list) - {'MTCH', 'KHC', 'PYPL', 'OKTA', 'DOCU', 'KO', 'MRNA'})
+    companies_symbol_list = list(set(companies_symbol_list) - {'MTCH', 'KHC', 'PYPL', 'OKTA', 'DOCU', 'KO', 'MRNA',
+                                                               'MTCH', 'COL', 'LB', 'MYL', 'ALXN', 'SCG', 'COG', 'VAR',
+                                                               'XEC', 'TIF', 'FLIR', 'CXO', 'UA', 'WLTW', 'UAA', 'QRVO',
+                                                               'BKR', 'BHF'})
 
     companies_cik_list = [cik_mu.get_cik_for_symbol(symbol) for symbol in companies_symbol_list]
     year_list = [str(year) for year in range(2015, 2019, 1)]

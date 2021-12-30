@@ -9,7 +9,7 @@ from sec_edgar.data.utils.cik_mapping_util import CikMappingUtil
 from sec_edgar.stock_historical_data.av_historical_data_request import AVHistoricalDataRequest
 import pandas as pd
 
-from sec_edgar.utils.evaluation_metrics import PerformanceMetric01
+from sec_edgar.utils.evaluation_metrics import PerformanceMetric02
 from sec_edgar.utils.performance_evaluations import PerformanceEvaluations4Form
 
 if __name__ == '__main__':
@@ -30,15 +30,21 @@ if __name__ == '__main__':
                               'LOW', 'NEE', 'T', 'LIN', 'UNP', 'UPS', 'ORCL', 'MDT', 'MS', 'HON', 'PM']
 
     path_symbols_file = base_path + "/Data/symbols/nasdaq_symbols.csv"
-    # path_symbols_file = base_path + "/Data/symbols/dji_symbols.csv"
-    path_symbols_file = base_path + "/Data/symbols/sp500_symbols.csv"
     symbols_file_df = pd.read_csv(path_symbols_file)
     companies_symbol_list += symbols_file_df['Symbol'].to_list()
+
+    path_symbols_file = base_path + "/Data/symbols/dji_symbols.csv"
+    symbols_file_df = pd.read_csv(path_symbols_file)
+    # companies_symbol_list += symbols_file_df['Symbol'].to_list()
+
+    companies_symbol_list = list(set(companies_symbol_list) - {'MTCH', 'KHC', 'PYPL', 'OKTA', 'DOCU', 'KO', 'MRNA'})
     companies_symbol_list = list(set(companies_symbol_list) - {'MTCH', 'COL', 'LB', 'MYL', 'ALXN', 'SCG', 'COG',
-                                                               'VAR', 'XEC', 'TIF', 'FLIR', 'CXO', 'TROW'})
+                                                               'VAR', 'XEC', 'TIF', 'FLIR'})
 
     companies_cik_list = [cik_mu.get_cik_for_symbol(symbol) for symbol in companies_symbol_list]
     year_list = [str(year) for year in range(2015, 2019, 1)]
+    # year_list = [str(year) for year in range(2015, 2017, 1)]
+
     quarter_lists = ['QTR1', 'QTR2', 'QTR3', 'QTR4']
     master_idx_contents_ = pre_process_master_idx_content(companies_cik_list=companies_cik_list,
                                                           year_list=year_list,
@@ -67,6 +73,13 @@ if __name__ == '__main__':
     processed_4form_df_ri = p4ff.get_transactions_adjusted_by_file_names()
     processed_4form_df_ri_day = p4ff.get_transactions_by_day()
 
+    # -------------------------------
+    # TODO: define a new metric with this ? (as metric 2 with addition of threes_hold)
+    #   Review 4form and processing! (and how shares_percent_changes_mean is computed!)
+    threes_hold = 1 / 100
+    processed_4form_df_ri_day = processed_4form_df_ri_day[processed_4form_df_ri_day['shares_percent_changes_mean'] > threes_hold]
+
+
     # ---------------------------------------------------------------------------------------------------------------
 
     # Processing of 4form files: Append of Historical Data ------------------------------------------------------------
@@ -93,17 +106,55 @@ if __name__ == '__main__':
     processed_form4_df_ri_day = pahp_ri_day.append_pct_changes_ahead(periods_ahead_list=[5, 10, 21, 63, 126, 252],
                                                                      form4_df=processed_form4_df_ri_day)
 
+    processed_form4_df_ri_day_sahd = pahp_ri_day.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[5],
+                                                                                           dates_timedelta_list=[
+                                                                                               pd.Timedelta("5 days"),
+                                                                                               pd.Timedelta("-5 days")],
+                                                                                           form4_df=processed_form4_df_ri_day)
+
+    processed_form4_df_ri_day_sahd = pahp_ri_day.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[21],
+                                                                                           dates_timedelta_list=[
+                                                                                               pd.Timedelta("21 days"),
+                                                                                               pd.Timedelta("-21 days")],
+                                                                                           form4_df=processed_form4_df_ri_day_sahd)
+
+    processed_form4_df_ri_day_sahd = pahp_ri_day.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[10],
+                                                                                           dates_timedelta_list=[
+                                                                                               pd.Timedelta("10 days"),
+                                                                                               pd.Timedelta("-10 days")],
+                                                                                           form4_df=processed_form4_df_ri_day_sahd)
     # ---------------------------------------------------------------------------------------------------------------
 
-    pe_4form = PerformanceEvaluations4Form(processed_form4_df_ri_day, n_sub_set=3)
-    metrics_df_, metrics_objects_dict_ = pe_4form.eval_metric(performance_metric_ref=PerformanceMetric01,
-                                                              pm_kwargs=dict(column_label_eval='Price pct_change (5)'))
+    pe_4form = PerformanceEvaluations4Form(processed_form4_df_ri_day_sahd, n_sub_set=3)
+    print(pe_4form.get_data_sets_sizes())
+
+    metrics_df_, metrics_objects_dict_ = pe_4form.eval_metric(performance_metric_ref=PerformanceMetric02,
+                                                              pm_kwargs=dict(column_label_eval='Price pct_change (5)',
+                                                                             shifted_columns_label_eval='Shifted Price pct_change (5)(-5 days +00:00:00)'))
     print(metrics_objects_dict_)
     print(metrics_df_)
 
+    metrics_df_2, metrics_objects_dict_2 = pe_4form.eval_metric(performance_metric_ref=PerformanceMetric02,
+                                                                  pm_kwargs=dict(
+                                                                      column_label_eval='Price pct_change (5)',
+                                                                      shifted_columns_label_eval='Shifted Price pct_change (5)(5 days 00:00:00)'))
+    print(metrics_objects_dict_2)
+    print(metrics_df_2)
 
-    # ------------------------------------------
-    metrics_df_, metrics_objects_dict_ = pe_4form.eval_metric(performance_metric_ref=PerformanceMetric01,
-                                                              pm_kwargs=dict(column_label_eval='Price pct_change (10)'))
+
+
+    # -----------------------------------------------------------------
+    # Review this. seems to be (until now) the most promising one
+    # Add statistically greater tham significance
+    metrics_df_, metrics_objects_dict_ = pe_4form.eval_metric(performance_metric_ref=PerformanceMetric02,
+                                                              pm_kwargs=dict(column_label_eval='Price pct_change (10)',
+                                                                                 shifted_columns_label_eval='Shifted Price pct_change (10)(-10 days +00:00:00)'))
     print(metrics_objects_dict_)
     print(metrics_df_)
+
+    metrics_df_2, metrics_objects_dict_2 = pe_4form.eval_metric(performance_metric_ref=PerformanceMetric02,
+                                                                  pm_kwargs=dict(
+                                                                      column_label_eval='Price pct_change (10)',
+                                                                      shifted_columns_label_eval='Shifted Price pct_change (10)(10 days 00:00:00)'))
+    print(metrics_objects_dict_2)
+    print(metrics_df_2)

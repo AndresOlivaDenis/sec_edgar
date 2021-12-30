@@ -6,6 +6,8 @@ from sec_edgar.data.processing.process_4form_files import Process4FormFiles
 from sec_edgar.data.utils.cik_mapping_util import CikMappingUtil
 from sec_edgar.stock_historical_data.av_historical_data_request import AVHistoricalDataRequest
 
+from sec_edgar.stock_historical_data.av_historical_data_request import NoAvailableDate
+
 path_asset_historical_data = os.path.dirname(
     os.path.dirname(os.path.dirname(os.getcwd()))) + '/Data/asset_historical_data'
 
@@ -66,13 +68,21 @@ class ProcessAppendHistoricalPrices(object):
             label = "Price pct_change ({})".format(period_ahead)
             processed_form4_df[label] = None
 
+        no_avilable_dates_cik = []
         for cik in self.cik_series:
-            for period_ahead in periods_ahead_list:
-                label = "Price pct_change ({})".format(period_ahead)
-                sas = self.hdr_dict[cik].get_pct_change_ahead_series(dates=self.cik_dates[cik],
-                                                                     periods_ahead=period_ahead,
-                                                                     name=label)
-                processed_form4_df.loc[processed_form4_df[self.cik_column] == cik, label] = sas.copy().values
+            try:
+                for period_ahead in periods_ahead_list:
+                    label = "Price pct_change ({})".format(period_ahead)
+                    sas = self.hdr_dict[cik].get_pct_change_ahead_series(dates=self.cik_dates[cik],
+                                                                         periods_ahead=period_ahead,
+                                                                         name=label)
+                    processed_form4_df.loc[processed_form4_df[self.cik_column] == cik, label] = sas.copy().values
+            except NoAvailableDate as e:
+                no_avilable_dates_cik.append(cik)
+        if NoAvailableDate:
+            print("\tWARNING, No avilable dates for the following symbols: ", NoAvailableDate)
+            print("\t\t Symbols have been removed")
+            processed_form4_df = processed_form4_df[~processed_form4_df.cik_column.isin(NoAvailableDate)]
         return processed_form4_df.copy()
 
     def append_pct_changes_ahead_in_shifted_dates(self, periods_ahead_list, dates_timedelta_list, form4_df=None):
@@ -101,8 +111,19 @@ class ProcessAppendHistoricalPrices(object):
 
 
 if __name__ == '__main__':
+    base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))))
+    path_company_ticket_file = base_path + "/Data/company_tickers.csv"
+    cik_mu = CikMappingUtil(company_ticket_file_path=path_company_ticket_file)
+
+
     # master_idx_contents Inputs --------------------------------------------------------------------------------------
-    companies_cik_list = ['320193', '1652044', '50863']
+    companies_symbol_list = ['GOOG', 'INTC', 'AAPL', 'AMD', 'BP']
+    companies_symbol_list = ['JPM', 'HD']  # , 'UNH', 'JNJ', 'PG', 'BAC']
+    companies_symbol_list = ['HD']  # , 'UNH', 'JNJ', 'PG', 'BAC']
+    companies_symbol_list = ['GOOG', 'INTC', 'AAPL', 'AMD', 'BP', 'HPE']
+
+    companies_cik_list = [cik_mu.get_cik_for_symbol(symbol) for symbol in companies_symbol_list]
+    # master_idx_contents Inputs --------------------------------------------------------------------------------------
     year_list = list(range(2018, 2022, 1))
     quarter_lists = ['QTR1', 'QTR2', 'QTR3', 'QTR4']
     master_idx_contents_ = pre_process_master_idx_content(companies_cik_list=companies_cik_list,

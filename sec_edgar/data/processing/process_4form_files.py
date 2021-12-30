@@ -1,19 +1,10 @@
-# TODO:
-"""
 
-- 2nd processings step:
-    - Merge multiple (differents owner) transacctions into one:
-        At first per day!
-        for a given interval of time ?
-
-# Possible reference to validate:
-    https://www.secform4.com/insider-trading/50863.htm
-    https://www.gurufocus.com/stock/INTC/insider?search=INTC
-
-"""
+import os
 import pandas as pd
 from sec_edgar.data.preprocessing.preprocess_4form_files import pre_process_4form_archive_files
 from sec_edgar.data.preprocessing.preprocess_master_idx import pre_process_master_idx_content
+
+from sec_edgar.data.utils.cik_mapping_util import CikMappingUtil
 
 
 class Process4FormFiles(object):
@@ -34,6 +25,7 @@ class Process4FormFiles(object):
                            'transactionTimeliness',
                            'equitySwapInvolved']
         as_type_dict = {'Date_Filed': 'datetime64',
+                        'transactionDate': 'datetime64',
                         'sharesOwnedFollowingTransaction': 'float'}
 
         self.form4_process_0 = self.init_proccess_form4_df(form4_df,
@@ -68,6 +60,8 @@ class Process4FormFiles(object):
         form4_process_0['shares_percent_changes'] = form4_process_0.transactionSharesAdjust/sOFT
         form4_process_0.loc[form4_process_0['shares_percent_changes'] > 1, 'shares_percent_changes'] = 1
 
+        form4_process_0['date_ft_delta'] = form4_process_0['Date_Filed'] - form4_process_0['transactionDate']
+
         form4_process_0['index_id'] = form4_process_0.index.to_list()
 
         form4_process_0 = form4_process_0.dropna(axis=1, how='all')
@@ -86,6 +80,8 @@ class Process4FormFiles(object):
         processed_df['shares_percent_changes_mean'] = gb_df.shares_percent_changes.mean()
         objective_column = 'transactionSharesAdjust'
         processed_df[objective_column] = gb_df[objective_column].sum()
+
+        processed_df['date_ft_delta_mean'] = gb_df.date_ft_delta.mean()
 
 
         # TODO: shares_changes
@@ -115,6 +111,13 @@ class Process4FormFiles(object):
         return self.get_transactions_adjusted(group_by_list=group_by_list,
                                               sort_by=sort_by,  # 'Date_filed'
                                               append_unique_of_remaining_columns=append_unique_of_remaining_columns)
+
+    def get_transactions_by_week(self,
+                                sort_by='Date_Filed',  # 'Date_filed'
+                                append_unique_of_remaining_columns=True):
+        # TODO:
+        #   Joint on the following friday (or maybe monday?
+        pass
 
     def get_dict_transactions_adjusted_by_owner(self,
                                                 sort_by='Date_Filed',  # 'Date_filed'
@@ -147,8 +150,18 @@ class Process4FormFiles(object):
 
 
 if __name__ == '__main__':
+    base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))))
+    path_company_ticket_file = base_path + "/Data/company_tickers.csv"
+    cik_mu = CikMappingUtil(company_ticket_file_path=path_company_ticket_file)
+
+
     # master_idx_contents Inputs --------------------------------------------------------------------------------------
-    companies_cik_list = ['320193', '1652044', '50863']
+    companies_symbol_list = ['GOOG', 'INTC', 'AAPL', 'AMD', 'BP']
+    companies_symbol_list = ['JPM', 'HD']  # , 'UNH', 'JNJ', 'PG', 'BAC']
+    companies_symbol_list = ['HD']  # , 'UNH', 'JNJ', 'PG', 'BAC']
+
+    companies_cik_list = [cik_mu.get_cik_for_symbol(symbol) for symbol in companies_symbol_list]
+    # companies_cik_list = ['320193', '1652044', '50863']
     year_list = list(range(2018, 2022, 1))
     quarter_lists = ['QTR1', 'QTR2', 'QTR3', 'QTR4']
     master_idx_contents_ = pre_process_master_idx_content(companies_cik_list=companies_cik_list,
@@ -198,7 +211,7 @@ if __name__ == '__main__':
     processed_4form_df_ri_day_only_dts = p4ff_only_dts.get_transactions_by_day()
 
     print(p4ff_only_dts.form4_process_0.groupby('transactionCode').transactionCode.count())
-    np.maximum([1, 2, -5, -0.5], -1)
+
 
 
 

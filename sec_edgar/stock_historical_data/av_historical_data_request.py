@@ -9,6 +9,17 @@ import pandas as pd
 path_default_files = os.path.dirname(os.path.dirname(os.getcwd())) + '/Data/asset_historical_data'
 
 
+class NoAvailableDate(Exception):
+    def __init__(self, error, symbol, date):
+        Exception.__init__(self, error)
+        self.error = error
+        self.symbol = symbol
+        self.date = date
+
+    def __str__(self):
+        return '{0}: No available Historical data for date: {1}'.format(self.symbol, self.date)
+
+
 class AVHistoricalDataRequest(object):
 
     def __init__(self, symbol, api_key, look_up_path=None, update_in_look_up_path=False, verbose=True):
@@ -102,11 +113,13 @@ class AVHistoricalDataRequest(object):
 
         # print("self.symbol: ", self.symbol)
         for missing_date in missing_dates:
-            print("missing_date: ", missing_date)
-            print("available_dates_sorted: \n", available_dates_sorted)
+            # print("missing_date: ", missing_date)   # TODO: DELETE
+            # print("available_dates_sorted: \n", available_dates_sorted) # TODO: DELETE
             prev_dates = available_dates_sorted < missing_date
-            print("available_dates_sorted[prev_dates]: \n", available_dates_sorted[prev_dates])
-            print("self.symbol: ", self.symbol)
+            # print("available_dates_sorted[prev_dates]: \n", available_dates_sorted[prev_dates]) # TODO: DELETE
+            print("self.symbol: ", self.symbol) # TODO: DELETE
+            if not np.any(prev_dates):
+                raise NoAvailableDate("", self.symbol, missing_date)
             adjusted_missing_dates.append(available_dates_sorted[prev_dates][0])
 
         adjusted_dates.loc[~isin_dates] = adjusted_missing_dates
@@ -170,12 +183,12 @@ class MultiSymbolAVHistoricalDataRequest(object):
 if __name__ == '__main__':
     api_key_ = "NIAI6K1QQ0KEXACB"
 
-    intc_historical_data = AVHistoricalDataRequest(symbol="DOCU",
+    intc_historical_data = AVHistoricalDataRequest(symbol="TROW",
                                                    api_key=api_key_,
                                                    look_up_path=path_default_files,
                                                    update_in_look_up_path=True)
 
-    amd_historical_data = AVHistoricalDataRequest(symbol="AMD",
+    amd_historical_data = AVHistoricalDataRequest(symbol="DUK",
                                                   api_key=api_key_,
                                                   look_up_path=path_default_files,
                                                   update_in_look_up_path=True)

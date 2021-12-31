@@ -11,7 +11,7 @@ def pre_process_master_idx_content(companies_cik_list,
                                    path_out=None,
                                    merged_file_name=None,
                                    verbose=True,
-                                   path_raw_default=os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd())))
+                                   path_raw_default=os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))))
                                                     + '/Data/raw/index'):
     """
     Preprocess Master index Files content
@@ -95,7 +95,7 @@ if __name__ == '__main__':
     merged_file_name_ = "Master_idx_content.csv"  # None if not to save
 
     path_out_ = os.path.dirname(
-        os.path.dirname(os.path.dirname(os.getcwd()))) + '/Data/pre_processed/company_files_list'
+        os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd())))) + '/Data/pre_processed/company_files_list'
 
     master_idx_contents = pre_process_master_idx_content(companies_cik_list=companies_cik_list_,
                                                          year_list=year_list_,

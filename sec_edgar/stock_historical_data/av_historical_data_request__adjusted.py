@@ -6,7 +6,7 @@ import numpy as np
 import requests
 import pandas as pd
 
-path_default_files = os.path.dirname(os.path.dirname(os.getcwd())) + '/Data/asset_historical_data'
+path_default_files = os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + '/Data/asset_historical_data'
 
 
 class AVHistoricalDataRequest(object):

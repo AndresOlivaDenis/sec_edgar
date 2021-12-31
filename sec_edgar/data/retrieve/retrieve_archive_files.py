@@ -12,7 +12,7 @@ def retrieve_and_save_file(row,
                                     'Host': 'www.sec.gov'},
                            archive_base_url="https://www.sec.gov/Archives/",
                            path_default_files=os.path.dirname(
-                               os.path.dirname(os.path.dirname(os.getcwd()))) + '/Data/raw/files',
+                               os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd())))) + '/Data/raw/files',
                            verbose=True):
     """
     Retrieve and save archive files at SEC-EDGAR

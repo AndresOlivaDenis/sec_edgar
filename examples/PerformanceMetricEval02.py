@@ -15,7 +15,7 @@ from sec_edgar.utils.performance_evaluations import PerformanceEvaluations4Form
 if __name__ == '__main__':
     # master_idx_contents Inputs --------------------------------------------------------------------------------------
 
-    base_path = os.path.dirname(os.getcwd())
+    base_path = os.path.dirname(os.path.dirname(os.getcwd()))
 
     # Edgar Index content preprocessing ----------------------------------------------------------------------------------
 
@@ -100,19 +100,24 @@ if __name__ == '__main__':
     processed_form4_df_ri_day = pahp_ri_day.append_pct_changes_ahead(periods_ahead_list=[5, 10, 21, 63, 126, 252],
                                                                      form4_df=processed_form4_df_ri_day)
 
-    processed_form4_df_ri_day_sahd = pahp_ri_day.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[5],
-                                                                                           dates_timedelta_list=[
-                                                                                               pd.Timedelta("5 days"),
-                                                                                               pd.Timedelta("-5 days")],
-                                                                                           form4_df=processed_form4_df_ri_day)
-
     processed_form4_df_ri_day_sahd = pahp_ri_day.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[21],
                                                                                            dates_timedelta_list=[
                                                                                                pd.Timedelta("21 days"),
                                                                                                pd.Timedelta("-21 days")],
+                                                                                           form4_df=processed_form4_df_ri_day)
+
+    pahp_ri_day_sahd = ProcessAppendHistoricalPrices(form4_df=processed_form4_df_ri_day_sahd,
+                                                look_up_path=path_asset_historical_data,
+                                                company_ticket_file_path=path_company_ticket_file)
+
+    processed_form4_df_ri_day_sahd = pahp_ri_day_sahd.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[5],
+                                                                                           dates_timedelta_list=[
+                                                                                               pd.Timedelta("5 days"),
+                                                                                               pd.Timedelta("-5 days")],
                                                                                            form4_df=processed_form4_df_ri_day_sahd)
 
-    processed_form4_df_ri_day_sahd = pahp_ri_day.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[10],
+
+    processed_form4_df_ri_day_sahd = pahp_ri_day_sahd.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[10],
                                                                                            dates_timedelta_list=[
                                                                                                pd.Timedelta("10 days"),
                                                                                                pd.Timedelta("-10 days")],
@@ -150,5 +155,6 @@ if __name__ == '__main__':
                                                                   pm_kwargs=dict(
                                                                       column_label_eval='Price pct_change (10)',
                                                                       shifted_columns_label_eval='Shifted Price pct_change (10)(10 days 00:00:00)'))
+
     print(metrics_objects_dict_2)
     print(metrics_df_2)

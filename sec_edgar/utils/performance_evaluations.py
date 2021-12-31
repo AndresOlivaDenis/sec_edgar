@@ -59,3 +59,55 @@ class PerformanceEvaluations4Form(object):
         processed_form4_df_list = [processed_form4_df[processed_form4_df.CIK.isin(companies_cik_list_)]
                                    for companies_cik_list_ in companies_cik_list_list]
         return processed_form4_df_list
+
+
+class PerformanceEvaluations4FormYear(object):
+
+    def __init__(self, processed_form4_df):
+        self.processed_form4_df = processed_form4_df.copy()
+        self.dates_index = pd.DatetimeIndex(processed_form4_df.Date_Filed)
+        self.years = pd.unique(self.dates_index.year)
+        self.n_sub_set = len(self.years)
+
+        self.processed_form4_df_list = self.split_processed_form4_df()
+        self.data_sets_sizes = self.get_data_sets_sizes()
+
+    def get_data_sets_sizes(self):
+        data_sets_sizes = dict()
+        label = "ss_{}".format("all")
+        data_sets_sizes[label] = len(self.processed_form4_df)
+        for i in range(self.n_sub_set):
+            label = "ss_{}".format(self.years[i])
+            data_sets_sizes[label] = len(self.processed_form4_df_list[i])
+        return data_sets_sizes
+
+    def eval_metric(self, performance_metric_ref, pm_kwargs):
+        metrics_df = pd.DataFrame()
+        metrics_objects_dict = dict()
+
+        label = "ss_{}".format("all")
+        metrics_objects_dict[label] = performance_metric_ref(**pm_kwargs)
+        metrics_df[label] = metrics_objects_dict[label].eval(self.processed_form4_df)
+
+        for i in range(self.n_sub_set):
+            label = "ss_{}".format(self.years[i])
+            metrics_objects_dict[label] = performance_metric_ref(**pm_kwargs)
+            metrics_df[label] = metrics_objects_dict[label].eval(self.processed_form4_df_list[i])
+        return metrics_df, metrics_objects_dict
+
+    def split_processed_form4_df(self):
+        processed_form4_df_list = [self.processed_form4_df[self.dates_index.year.isin([year])]
+                                   for year in self.years]
+        return processed_form4_df_list
+
+
+if __name__ == '__main__':
+    # Loading of data set --------------------------------------------------------------------------------------------
+    base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd())))
+
+    path_processed_datasets = base_path + '/Data/processed_datasets/'
+    file_name = path_processed_datasets + "us_market_allderv_isDirector_shiftedDays_1518.py" + ".csv"
+    processed_4form_df = pd.read_csv(file_name, index_col=0)
+
+    peyear = PerformanceEvaluations4FormYear(processed_4form_df)
+

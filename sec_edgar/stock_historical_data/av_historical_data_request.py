@@ -6,7 +6,7 @@ import numpy as np
 import requests
 import pandas as pd
 
-path_default_files = os.path.dirname(os.path.dirname(os.getcwd())) + '/Data/asset_historical_data'
+path_default_files = os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + '/Data/asset_historical_data'
 
 
 class NoAvailableDate(Exception):
@@ -113,11 +113,7 @@ class AVHistoricalDataRequest(object):
 
         # print("self.symbol: ", self.symbol)
         for missing_date in missing_dates:
-            # print("missing_date: ", missing_date)   # TODO: DELETE
-            # print("available_dates_sorted: \n", available_dates_sorted) # TODO: DELETE
             prev_dates = available_dates_sorted < missing_date
-            # print("available_dates_sorted[prev_dates]: \n", available_dates_sorted[prev_dates]) # TODO: DELETE
-            print("self.symbol: ", self.symbol) # TODO: DELETE
             if not np.any(prev_dates):
                 raise NoAvailableDate("", self.symbol, missing_date)
             adjusted_missing_dates.append(available_dates_sorted[prev_dates][0])

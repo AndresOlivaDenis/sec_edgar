@@ -9,10 +9,10 @@ from sec_edgar.stock_historical_data.av_historical_data_request import AVHistori
 from sec_edgar.stock_historical_data.av_historical_data_request import NoAvailableDate
 
 path_asset_historical_data = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.getcwd()))) + '/Data/asset_historical_data'
+    os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd())))) + '/Data/asset_historical_data'
 
 path_company_ticket_file = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.getcwd()))) + '/Data/company_tickers.csv'
+    os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd())))) + '/Data/company_tickers.csv'
 
 
 class ProcessAppendHistoricalPrices(object):
@@ -49,13 +49,23 @@ class ProcessAppendHistoricalPrices(object):
             label_dict_astype[label] = float
             processed_form4_df[label] = None
 
+        no_avilable_dates_cik = []
         for cik in self.cik_series:
-            for period_ahead in periods_ahead_list:
-                label = "Shifted Price ({})".format(period_ahead)
-                sas = self.hdr_dict[cik].get_shifted_ahead_series(dates=self.cik_dates[cik],
-                                                                  periods_ahead=period_ahead,
-                                                                  name=label)
-                processed_form4_df.loc[processed_form4_df[self.cik_column] == cik, label] = sas.copy().values
+            try:
+                for period_ahead in periods_ahead_list:
+                    label = "Shifted Price ({})".format(period_ahead)
+                    sas = self.hdr_dict[cik].get_shifted_ahead_series(dates=self.cik_dates[cik],
+                                                                      periods_ahead=period_ahead,
+                                                                      name=label)
+                    processed_form4_df.loc[processed_form4_df[self.cik_column] == cik, label] = sas.copy().values
+            except NoAvailableDate as e:
+                no_avilable_dates_cik.append(cik)
+        if no_avilable_dates_cik:
+            print("\tWARNING, No avilable dates for the following symbols: ", no_avilable_dates_cik)
+            print("\t\t Symbols have been removed")
+            is_in = processed_form4_df[self.cik_column].isin(no_avilable_dates_cik)
+            processed_form4_df = processed_form4_df[~is_in]
+
         processed_form4_df = processed_form4_df.astype(label_dict_astype)
         return processed_form4_df.copy()
 
@@ -79,10 +89,11 @@ class ProcessAppendHistoricalPrices(object):
                     processed_form4_df.loc[processed_form4_df[self.cik_column] == cik, label] = sas.copy().values
             except NoAvailableDate as e:
                 no_avilable_dates_cik.append(cik)
-        if NoAvailableDate:
-            print("\tWARNING, No avilable dates for the following symbols: ", NoAvailableDate)
+        if no_avilable_dates_cik:
+            print("\tWARNING, No avilable dates for the following symbols: ", no_avilable_dates_cik)
             print("\t\t Symbols have been removed")
-            processed_form4_df = processed_form4_df[~processed_form4_df.cik_column.isin(NoAvailableDate)]
+            is_in = processed_form4_df[self.cik_column].isin(no_avilable_dates_cik)
+            processed_form4_df = processed_form4_df[~is_in]
         return processed_form4_df.copy()
 
     def append_pct_changes_ahead_in_shifted_dates(self, periods_ahead_list, dates_timedelta_list, form4_df=None):
@@ -98,15 +109,24 @@ class ProcessAppendHistoricalPrices(object):
                 label = "Shifted Price pct_change ({})({})".format(period_ahead, dates_timedelta)
                 processed_form4_df[label] = None
 
+        no_avilable_dates_cik = []
         for cik in self.cik_series:
-            for period_ahead in periods_ahead_list:
-                for dates_timedelta in dates_timedelta_list:
-                    dates = self.cik_dates[cik] + dates_timedelta
-                    label = "Shifted Price pct_change ({})({})".format(period_ahead, dates_timedelta)
-                    sas = self.hdr_dict[cik].get_pct_change_ahead_series(dates=dates,
-                                                                         periods_ahead=period_ahead,
-                                                                         name=label)
-                    processed_form4_df.loc[processed_form4_df[self.cik_column] == cik, label] = sas.copy().values
+            try:
+                for period_ahead in periods_ahead_list:
+                    for dates_timedelta in dates_timedelta_list:
+                        dates = self.cik_dates[cik] + dates_timedelta
+                        label = "Shifted Price pct_change ({})({})".format(period_ahead, dates_timedelta)
+                        sas = self.hdr_dict[cik].get_pct_change_ahead_series(dates=dates,
+                                                                             periods_ahead=period_ahead,
+                                                                             name=label)
+                        processed_form4_df.loc[processed_form4_df[self.cik_column] == cik, label] = sas.copy().values
+            except NoAvailableDate as e:
+                no_avilable_dates_cik.append(cik)
+        if no_avilable_dates_cik:
+            print("\tWARNING, No avilable dates for the following symbols: ", no_avilable_dates_cik)
+            print("\t\t Symbols have been removed")
+            is_in = processed_form4_df[self.cik_column].isin(no_avilable_dates_cik)
+            processed_form4_df = processed_form4_df[~is_in]
         return processed_form4_df.copy()
 
 
@@ -120,11 +140,12 @@ if __name__ == '__main__':
     companies_symbol_list = ['GOOG', 'INTC', 'AAPL', 'AMD', 'BP']
     companies_symbol_list = ['JPM', 'HD']  # , 'UNH', 'JNJ', 'PG', 'BAC']
     companies_symbol_list = ['HD']  # , 'UNH', 'JNJ', 'PG', 'BAC']
-    companies_symbol_list = ['GOOG', 'INTC', 'AAPL', 'AMD', 'BP', 'HPE']
+    companies_symbol_list = ['GOOG', 'INTC', 'AAPL', 'AMD', 'BP', 'HPE', 'BHF']
 
     companies_cik_list = [cik_mu.get_cik_for_symbol(symbol) for symbol in companies_symbol_list]
     # master_idx_contents Inputs --------------------------------------------------------------------------------------
-    year_list = list(range(2018, 2022, 1))
+    # year_list = list(range(2018, 2022, 1))
+    year_list = list(range(2015, 2019, 1))
     quarter_lists = ['QTR1', 'QTR2', 'QTR3', 'QTR4']
     master_idx_contents_ = pre_process_master_idx_content(companies_cik_list=companies_cik_list,
                                                           year_list=year_list,

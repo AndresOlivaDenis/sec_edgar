@@ -65,8 +65,8 @@ def process_form_securities_tables(form_xml_content):
 
 
 def pre_process_4form_archive_files(master_idx_contents,
-                                    path_default_files=os.path.dirname(
-                                        os.path.dirname(os.path.dirname(os.getcwd()))) + '/Data/raw/files',
+                                    path_default_files=os.path.dirname(os.path.dirname(
+                                        os.path.dirname(os.path.dirname(os.getcwd())))) + '/Data/raw/files',
                                     ):
     master_idx_contents_4form = master_idx_contents[master_idx_contents.Form_Type.isin(['4'])].reset_index(drop=True)
 

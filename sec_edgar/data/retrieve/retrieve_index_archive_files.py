@@ -7,7 +7,7 @@ import requests
 Python Script to retrieve index files at SEC-EDGAR
 """
 
-path_default = os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + '/Data/raw/index'
+path_default = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd())))) + '/Data/raw/index'
 
 base_url = "https://www.sec.gov/Archives/edgar/full-index/"
 headers = {'User-Agent': 'Individual Andres Oliva andresolivadenis@gmail.com',

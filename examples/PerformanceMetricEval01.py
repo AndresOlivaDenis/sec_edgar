@@ -15,7 +15,7 @@ from sec_edgar.utils.performance_evaluations import PerformanceEvaluations4Form
 if __name__ == '__main__':
     # master_idx_contents Inputs --------------------------------------------------------------------------------------
 
-    base_path = os.path.dirname(os.getcwd())
+    base_path = os.path.dirname(os.path.dirname(os.getcwd()))
 
     # Edgar Index content preprocessing ----------------------------------------------------------------------------------
 

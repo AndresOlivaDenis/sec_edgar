@@ -15,7 +15,7 @@ from sec_edgar.utils.performance_evaluations import PerformanceEvaluations4Form
 if __name__ == '__main__':
     # master_idx_contents Inputs --------------------------------------------------------------------------------------
 
-    base_path = os.path.dirname(os.getcwd())
+    base_path = os.path.dirname(os.path.dirname(os.getcwd()))
 
     # Edgar Index content preprocessing ----------------------------------------------------------------------------------
 
@@ -33,17 +33,17 @@ if __name__ == '__main__':
     symbols_file_df = pd.read_csv(path_symbols_file)
     companies_symbol_list += symbols_file_df['Symbol'].to_list()
 
-    path_symbols_file = base_path + "/Data/symbols/dji_symbols.csv"
+    path_symbols_file = base_path + "/Data/symbols/sp500_symbols.csv"
     symbols_file_df = pd.read_csv(path_symbols_file)
-    # companies_symbol_list += symbols_file_df['Symbol'].to_list()
+    companies_symbol_list += symbols_file_df['Symbol'].to_list()
 
     companies_symbol_list = list(set(companies_symbol_list) - {'MTCH', 'KHC', 'PYPL', 'OKTA', 'DOCU', 'KO', 'MRNA',
-                                                               'MTCH', 'COL', 'LB', 'MYL', 'ALXN', 'SCG', 'COG', 'VAR',
+                                                              'MTCH', 'COL', 'LB', 'MYL', 'ALXN', 'SCG', 'COG', 'VAR',
                                                                'XEC', 'TIF', 'FLIR', 'CXO', 'UA', 'WLTW', 'UAA', 'QRVO'})
 
-
     companies_cik_list = [cik_mu.get_cik_for_symbol(symbol) for symbol in companies_symbol_list]
-    year_list = [str(year) for year in range(2015, 2019, 1)]
+    # year_list = [str(year) for year in range(2015, 2019, 1)]
+    year_list = [str(year) for year in range(2019, 2020, 1)]
     # year_list = [str(year) for year in range(2015, 2017, 1)]
 
     quarter_lists = ['QTR1', 'QTR2', 'QTR3', 'QTR4']
@@ -102,19 +102,23 @@ if __name__ == '__main__':
     processed_form4_df_ri_day = pahp_ri_day.append_pct_changes_ahead(periods_ahead_list=[5, 10, 21, 63, 126, 252],
                                                                      form4_df=processed_form4_df_ri_day)
 
-    processed_form4_df_ri_day_sahd = pahp_ri_day.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[5],
-                                                                                           dates_timedelta_list=[
-                                                                                               pd.Timedelta("5 days"),
-                                                                                               pd.Timedelta("-5 days")],
-                                                                                           form4_df=processed_form4_df_ri_day)
-
     processed_form4_df_ri_day_sahd = pahp_ri_day.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[21],
                                                                                            dates_timedelta_list=[
                                                                                                pd.Timedelta("21 days"),
                                                                                                pd.Timedelta("-21 days")],
+                                                                                           form4_df=processed_form4_df_ri_day)
+
+    pahp_ri_day_sahd = ProcessAppendHistoricalPrices(form4_df=processed_form4_df_ri_day_sahd,
+                                                look_up_path=path_asset_historical_data,
+                                                company_ticket_file_path=path_company_ticket_file)
+
+    processed_form4_df_ri_day_sahd = pahp_ri_day_sahd.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[5],
+                                                                                           dates_timedelta_list=[
+                                                                                               pd.Timedelta("5 days"),
+                                                                                               pd.Timedelta("-5 days")],
                                                                                            form4_df=processed_form4_df_ri_day_sahd)
 
-    processed_form4_df_ri_day_sahd = pahp_ri_day.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[10],
+    processed_form4_df_ri_day_sahd = pahp_ri_day_sahd.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[10],
                                                                                            dates_timedelta_list=[
                                                                                                pd.Timedelta("10 days"),
                                                                                                pd.Timedelta("-10 days")],

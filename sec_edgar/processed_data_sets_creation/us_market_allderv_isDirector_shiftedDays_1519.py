@@ -41,7 +41,7 @@ if __name__ == '__main__':
                                                                'BKR', 'BHF'})
 
     companies_cik_list = [cik_mu.get_cik_for_symbol(symbol) for symbol in companies_symbol_list]
-    year_list = [str(year) for year in range(2015, 2019, 1)]
+    year_list = [str(year) for year in range(2015, 2020, 1)]
     # year_list = [str(year) for year in range(2015, 2017, 1)]
 
     quarter_lists = ['QTR1', 'QTR2', 'QTR3', 'QTR4']
@@ -64,9 +64,9 @@ if __name__ == '__main__':
 
     # Processing of 4form files: grouping and define of adjusted transactions ---------------------------------------
     # TODO: In another file:
-    #   Remove isDirector                                   (1) -
-    #   Only Derivative transactions                        (3) -
-    #   Only NonDerivative transactions                     (3) -
+    #   Remove isDirector                                   (2) -
+    #   Only Derivative transactions                        (4) -
+    #   Only NonDerivative transactions                     (4) -
     p4ff = Process4FormFiles(form4_df,
                              include_derivative_transaction=True,
                              sub_select_dict={'directOrIndirectOwnership': "D",
@@ -76,9 +76,9 @@ if __name__ == '__main__':
     processed_4form_df = p4ff.get_transactions_by_day()
 
     # TODO: In another file:
-    #   date_delta = pd.Timedelta(days=1)                   (2) -
-    #   date_delta = pd.Timedelta(days=2)                   (2) -
-    #   date_delta = pd.Timedelta(days=3)                   (2) -
+    #   date_delta = pd.Timedelta(days=1)                   (3) -
+    #   date_delta = pd.Timedelta(days=2)                   (3) -
+    #   date_delta = pd.Timedelta(days=3)                   (3) -
 
     # ---------------------------------------------------------------------------------------------------------------
 

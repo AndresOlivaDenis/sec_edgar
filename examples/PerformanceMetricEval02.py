@@ -44,6 +44,7 @@ if __name__ == '__main__':
 
     companies_cik_list = [cik_mu.get_cik_for_symbol(symbol) for symbol in companies_symbol_list]
     year_list = [str(year) for year in range(2015, 2019, 1)]
+    year_list = [str(year) for year in range(2012, 2015, 1)]
     # year_list = [str(year) for year in range(2015, 2017, 1)]
 
     quarter_lists = ['QTR1', 'QTR2', 'QTR3', 'QTR4']

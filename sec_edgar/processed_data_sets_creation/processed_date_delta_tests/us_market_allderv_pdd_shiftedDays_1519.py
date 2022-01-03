@@ -15,7 +15,7 @@ from sec_edgar.utils.performance_evaluations import PerformanceEvaluations4Form
 if __name__ == '__main__':
     # master_idx_contents Inputs --------------------------------------------------------------------------------------
 
-    base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd())))
+    base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))))
 
     # Edgar Index content preprocessing ----------------------------------------------------------------------------------
     companies_symbol_list = []
@@ -41,7 +41,7 @@ if __name__ == '__main__':
                                                                'BKR', 'BHF'})
 
     companies_cik_list = [cik_mu.get_cik_for_symbol(symbol) for symbol in companies_symbol_list]
-    year_list = [str(year) for year in range(2015, 2019, 1)]
+    year_list = [str(year) for year in range(2015, 2020, 1)]
     # year_list = [str(year) for year in range(2015, 2017, 1)]
 
     quarter_lists = ['QTR1', 'QTR2', 'QTR3', 'QTR4']
@@ -64,21 +64,20 @@ if __name__ == '__main__':
 
     # Processing of 4form files: grouping and define of adjusted transactions ---------------------------------------
     # TODO: In another file:
-    #   Remove isDirector                                   (1) -
-    #   Only Derivative transactions                        (3) -
-    #   Only NonDerivative transactions                     (3) -
+    #   Only Derivative transactions                        (2) -
+    #   Only NonDerivative transactions                     (2) -
     p4ff = Process4FormFiles(form4_df,
                              include_derivative_transaction=True,
-                             sub_select_dict={'directOrIndirectOwnership': "D",
-                                              'isDirector': '1'})
+                             sub_select_dict={'directOrIndirectOwnership': "D"})
 
     # processed_4form_df_ri = p4ff.get_transactions_adjusted_by_file_names()
     processed_4form_df = p4ff.get_transactions_by_day()
 
     # TODO: In another file:
-    #   date_delta = pd.Timedelta(days=1)                   (2) -
-    #   date_delta = pd.Timedelta(days=2)                   (2) -
-    #   date_delta = pd.Timedelta(days=3)                   (2) -
+    #   Fix! Review dates, some are wrong!  -> Create a def that prefix date! (date column as input) (remove dates below a ref min date?) (replace(-) -> int, min)
+    #   date_delta = pd.Timedelta(days=1)                   (1) -
+    #   date_delta = pd.Timedelta(days=2)                   (1) -
+    #   date_delta = pd.Timedelta(days=3)                   (1) -
 
     # ---------------------------------------------------------------------------------------------------------------
 

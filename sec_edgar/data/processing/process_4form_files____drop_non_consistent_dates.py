@@ -14,7 +14,8 @@ class Process4FormFiles(object):
                  include_derivative_transaction=False,
                  transaction_codes_lst=None,
                  sub_select_dict={'directOrIndirectOwnership': "D"},
-                 date_delta_ref_column='periodOfReport'):
+                 processed_date_delta=False,
+                 processed_date_delta_dict={'date_column': 'periodOfReport', 'date_threshold_ref':'2000-01-01'}):
         self.form4_df = form4_df.copy()
 
         if not include_derivative_transaction:
@@ -29,8 +30,16 @@ class Process4FormFiles(object):
                         # 'periodOfReport': 'datetime64',
                         'sharesOwnedFollowingTransaction': 'float'}
 
-        self.date_delta_ref_column = date_delta_ref_column
-        self.form4_df[date_delta_ref_column] = pd.to_datetime(self.form4_df[date_delta_ref_column], errors='coerce')
+        self.processed_date_delta = processed_date_delta
+        self.processed_date_delta_dict = processed_date_delta_dict
+        if self.processed_date_delta:
+            date_column = self.processed_date_delta_dict['date_column']
+            self.form4_df[date_column] = pd.to_datetime(self.form4_df[date_column], errors='coerce')
+            # date_threshold_ref = self.processed_date_delta_dict['date_threshold_ref']
+            # self.form4_df = Process4FormFiles.drop_non_consistent_dates(self.form4_df,
+            #                                                             date_column=date_column,
+            #                                                             date_threshold_ref=date_threshold_ref)
+            # as_type_dict[date_column] = 'datetime64'
 
         self.form4_process_0 = self.init_proccess_form4_df(self.form4_df,
                                                            sub_select_dict=sub_select_dict,
@@ -66,7 +75,9 @@ class Process4FormFiles(object):
 
         # form4_process_0['date_ft_delta'] = form4_process_0['Date_Filed'] - form4_process_0['transactionDate']
         # form4_process_0['date_ft_delta'] = form4_process_0['Date_Filed'] - form4_process_0['periodOfReport']
-        form4_process_0['date_ft_delta'] = form4_process_0['Date_Filed'] - form4_process_0[self.date_delta_ref_column]
+        if self.processed_date_delta:
+            date_column = self.processed_date_delta_dict['date_column']
+            form4_process_0['date_ft_delta'] = form4_process_0['Date_Filed'] - form4_process_0[date_column]
 
         form4_process_0['index_id'] = form4_process_0.index.to_list()
 
@@ -88,7 +99,8 @@ class Process4FormFiles(object):
         processed_df[objective_column] = gb_df[objective_column].sum()
 
         # processed_df['date_ft_delta_mean'] = gb_df.date_ft_delta.mean()
-        processed_df['date_ft_delta_mean'] = gb_df.date_ft_delta.mean()
+        if self.processed_date_delta:
+            processed_df['date_ft_delta_mean'] = gb_df.date_ft_delta.mean()
 
         # TODO: shares_changes
         # transactionSharesAdjust_sum = gb_df['transactionSharesAdjust'].sum()
@@ -100,12 +112,6 @@ class Process4FormFiles(object):
 
         if append_unique_of_remaining_columns:
             processed_df = self.append_unique_of_remaining_columns(processed_df, gb_df)
-
-        a = pd.Series(processed_df.transaction_type.apply(str))
-        processed_df['my_derivative_types'] = ''
-        processed_df.loc[a.str.contains('derivative'), 'my_derivative_types'] = 'A'
-        processed_df.loc[a.str.contains('nonDerivative'), 'my_derivative_types'] += 'B'
-        # processed_df.loc[a.str.contains('nonDerivative') + a.str.contains('derivative'), 'my_derivative_types'] = 'C'
 
         return processed_df.reset_index().sort_values(by=sort_by)
 
@@ -160,6 +166,14 @@ class Process4FormFiles(object):
         # TODO: plot cummsum & also histograms
         pass
 
+    @staticmethod
+    def drop_non_consistent_dates(form4_df, date_column, date_threshold_ref='2000-01-01'):
+        form4_df_processed = form4_df.copy()
+        dates_processed_index = form4_df_processed[date_column].str.replace("-", "").astype(float)
+        dates_processed_index = dates_processed_index > float(date_threshold_ref.replace("-", ""))
+        form4_df_processed = form4_df_processed[dates_processed_index]
+        return form4_df_processed
+
 
 if __name__ == '__main__':
     base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))))
@@ -197,6 +211,10 @@ if __name__ == '__main__':
     processed_4form_df_ri = p4ff.get_transactions_adjusted_by_file_names()
     processed_4form_df_ri_day = p4ff.get_transactions_by_day()
 
+    p4ff_pdd = Process4FormFiles(form4_df, include_derivative_transaction=True, processed_date_delta=True)
+    processed_4form_df_ri_pdd = p4ff_pdd.get_transactions_adjusted_by_file_names()
+    processed_4form_df_ri_day_pdd = p4ff_pdd.get_transactions_by_day()
+
     owner_processed_df_dict = p4ff.get_dict_transactions_adjusted_by_owner()
     df_owner = owner_processed_df_dict['GELSINGER PATRICK P']
 
@@ -224,10 +242,6 @@ if __name__ == '__main__':
 
     print(p4ff_only_dts.form4_process_0.groupby('transactionCode').transactionCode.count())
 
-    # Testing.
-    a = pd.unique(processed_4form_df_ri_day.transaction_type.apply(str))
-    pd.Series(a).str.contains('nonDerivative')
-    pd.Series(a).str.contains('derivative')
 
 
 

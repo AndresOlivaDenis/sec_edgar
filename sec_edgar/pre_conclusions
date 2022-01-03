@@ -1,0 +1,26 @@
+
+## Pre-Conclusions
+
+- Seems like insider transactions invest is a good approach:
+        - Returns seems to be higher
+        - On 10 Days timeFrame even in "negative returns years"
+
+- 5, 10, and 21 Days timeFrames seems to be statistically improvements.
+
+- on 5 day timeFrame:
+        - Seems like there is not an decay in returns on the foward 5 days
+
+- on 10 day timeFrame:
+        - Seems like there is a bit of an decay in returns on the foward 10 days
+
+- 10 Days timeFrame seems to be the best reference timeFrame:
+        - Has a good returns increase in positive and negative years relationship
+        - Not also that it seems can be extended to 21days!
+                (in case minimize cost weigth is needed and/or not enougth transactions signals)
+
+- Other notes:
+        - There is not really significance difference with 10+ foward benchmark, so in order to minimize cost weigth in returns (and to maximize exposure in market) only close in 10Days if there is a new other stock to invest in.
+
+        - By days seems to be the best approach (vs by File)
+
+        - Seems to not be significant difference using is_director vs not using it

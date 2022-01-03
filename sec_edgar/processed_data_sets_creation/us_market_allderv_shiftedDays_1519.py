@@ -41,7 +41,7 @@ if __name__ == '__main__':
                                                                'BKR', 'BHF'})
 
     companies_cik_list = [cik_mu.get_cik_for_symbol(symbol) for symbol in companies_symbol_list]
-    year_list = [str(year) for year in range(2015, 2019, 1)]
+    year_list = [str(year) for year in range(2015, 2020, 1)]
     # year_list = [str(year) for year in range(2015, 2017, 1)]
 
     quarter_lists = ['QTR1', 'QTR2', 'QTR3', 'QTR4']
@@ -64,21 +64,20 @@ if __name__ == '__main__':
 
     # Processing of 4form files: grouping and define of adjusted transactions ---------------------------------------
     # TODO: In another file:
-    #   Remove isDirector                                   (1) -
-    #   Only Derivative transactions                        (3) -
-    #   Only NonDerivative transactions                     (3) -
+    #   Only Derivative transactions                        (1) -
+    #   Only NonDerivative transactions                     (1) -
     p4ff = Process4FormFiles(form4_df,
                              include_derivative_transaction=True,
-                             sub_select_dict={'directOrIndirectOwnership': "D",
-                                              'isDirector': '1'})
+                             sub_select_dict={'directOrIndirectOwnership': "D"})
 
     # processed_4form_df_ri = p4ff.get_transactions_adjusted_by_file_names()
     processed_4form_df = p4ff.get_transactions_by_day()
-
-    # TODO: In another file:
-    #   date_delta = pd.Timedelta(days=1)                   (2) -
-    #   date_delta = pd.Timedelta(days=2)                   (2) -
-    #   date_delta = pd.Timedelta(days=3)                   (2) -
+    # TODO:
+    #   Include n_Shares/SharesOutstanding   (sharesOutstanding comes in alhpavange company overview)
+    #   Include n_Share*price
+    #   Indicator of Growth/Value companies ?
+    #   Do regression ? (in order to see if correlation exist?) (include date?)
+    #       https://risk.edhec.edu/sites/risk/files/EDHEC_Working_Paper_Some_Insiders_Are_Indeed_Smart_Investors.pdf
 
     # ---------------------------------------------------------------------------------------------------------------
 

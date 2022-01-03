@@ -13,8 +13,8 @@ class Process4FormFiles(object):
                  form4_df,
                  include_derivative_transaction=False,
                  transaction_codes_lst=None,
-                 sub_select_dict={'directOrIndirectOwnership': "D"},
-                 date_delta_ref_column='periodOfReport'):
+                 sub_select_dict={'directOrIndirectOwnership': "D"}):
+
         self.form4_df = form4_df.copy()
 
         if not include_derivative_transaction:
@@ -25,14 +25,10 @@ class Process4FormFiles(object):
                            'transactionTimeliness',
                            'equitySwapInvolved']
         as_type_dict = {'Date_Filed': 'datetime64',
-                        # 'transactionDate': 'datetime64',
-                        # 'periodOfReport': 'datetime64',
+                        'transactionDate': 'datetime64',
                         'sharesOwnedFollowingTransaction': 'float'}
 
-        self.date_delta_ref_column = date_delta_ref_column
-        self.form4_df[date_delta_ref_column] = pd.to_datetime(self.form4_df[date_delta_ref_column], errors='coerce')
-
-        self.form4_process_0 = self.init_proccess_form4_df(self.form4_df,
+        self.form4_process_0 = self.init_proccess_form4_df(form4_df,
                                                            sub_select_dict=sub_select_dict,
                                                            to_drop_columns=to_drop_columns,
                                                            as_type_dict=as_type_dict,
@@ -64,9 +60,7 @@ class Process4FormFiles(object):
         form4_process_0['shares_percent_changes'] = form4_process_0.transactionSharesAdjust/sOFT
         form4_process_0.loc[form4_process_0['shares_percent_changes'] > 1, 'shares_percent_changes'] = 1
 
-        # form4_process_0['date_ft_delta'] = form4_process_0['Date_Filed'] - form4_process_0['transactionDate']
-        # form4_process_0['date_ft_delta'] = form4_process_0['Date_Filed'] - form4_process_0['periodOfReport']
-        form4_process_0['date_ft_delta'] = form4_process_0['Date_Filed'] - form4_process_0[self.date_delta_ref_column]
+        form4_process_0['date_ft_delta'] = form4_process_0['Date_Filed'] - form4_process_0['transactionDate']
 
         form4_process_0['index_id'] = form4_process_0.index.to_list()
 
@@ -87,8 +81,8 @@ class Process4FormFiles(object):
         objective_column = 'transactionSharesAdjust'
         processed_df[objective_column] = gb_df[objective_column].sum()
 
-        # processed_df['date_ft_delta_mean'] = gb_df.date_ft_delta.mean()
         processed_df['date_ft_delta_mean'] = gb_df.date_ft_delta.mean()
+
 
         # TODO: shares_changes
         # transactionSharesAdjust_sum = gb_df['transactionSharesAdjust'].sum()
@@ -100,12 +94,6 @@ class Process4FormFiles(object):
 
         if append_unique_of_remaining_columns:
             processed_df = self.append_unique_of_remaining_columns(processed_df, gb_df)
-
-        a = pd.Series(processed_df.transaction_type.apply(str))
-        processed_df['my_derivative_types'] = ''
-        processed_df.loc[a.str.contains('derivative'), 'my_derivative_types'] = 'A'
-        processed_df.loc[a.str.contains('nonDerivative'), 'my_derivative_types'] += 'B'
-        # processed_df.loc[a.str.contains('nonDerivative') + a.str.contains('derivative'), 'my_derivative_types'] = 'C'
 
         return processed_df.reset_index().sort_values(by=sort_by)
 
@@ -224,10 +212,6 @@ if __name__ == '__main__':
 
     print(p4ff_only_dts.form4_process_0.groupby('transactionCode').transactionCode.count())
 
-    # Testing.
-    a = pd.unique(processed_4form_df_ri_day.transaction_type.apply(str))
-    pd.Series(a).str.contains('nonDerivative')
-    pd.Series(a).str.contains('derivative')
 
 
 

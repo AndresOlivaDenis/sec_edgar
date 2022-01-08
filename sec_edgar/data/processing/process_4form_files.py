@@ -101,10 +101,10 @@ class Process4FormFiles(object):
         if append_unique_of_remaining_columns:
             processed_df = self.append_unique_of_remaining_columns(processed_df, gb_df)
 
-        a = pd.Series(processed_df.transaction_type.apply(str))
+        a = pd.Series(processed_df.transaction_table.apply(str))
         processed_df['my_derivative_types'] = ''
-        processed_df.loc[a.str.contains('derivative'), 'my_derivative_types'] = 'A'
-        processed_df.loc[a.str.contains('nonDerivative'), 'my_derivative_types'] += 'B'
+        processed_df.loc[a.str.contains('derivativeTable'), 'my_derivative_types'] = 'A'
+        processed_df.loc[a.str.contains('nonDerivativeTable'), 'my_derivative_types'] += 'B'
         # processed_df.loc[a.str.contains('nonDerivative') + a.str.contains('derivative'), 'my_derivative_types'] = 'C'
 
         return processed_df.reset_index().sort_values(by=sort_by)

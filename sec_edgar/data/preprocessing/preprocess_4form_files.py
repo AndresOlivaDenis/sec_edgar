@@ -59,6 +59,7 @@ def process_form_securities_tables(form_xml_content):
         if lv_1_element.tag in ["nonDerivativeTable", "derivativeTable"]:
             for transaction_element in list(lv_1_element):
                 transaction_dict = {"transaction_type": transaction_element.tag,
+                                    'transaction_table': lv_1_element.tag,
                                     **process_all(transaction_element, parent_name=None)}
                 non_derivative_transactions_list.append(transaction_dict)
     return non_derivative_transactions_list

@@ -37,7 +37,7 @@ class ProcessAppendHistoricalPrices(object):
                                                          update_in_look_up_path=True)
             self.cik_dates[cik] = self.form4_df_0.loc[self.form4_df_0[cik_column] == cik, date_column]
 
-    def append_prices_shifted_ahead(self, periods_ahead_list, form4_df=None):
+    def append_prices_shifted_ahead(self, periods_ahead_list, form4_df=None, remove_non_available_symbols=True):
         if form4_df is not None:
             processed_form4_df = form4_df.copy()
         else:
@@ -62,14 +62,15 @@ class ProcessAppendHistoricalPrices(object):
                 no_avilable_dates_cik.append(cik)
         if no_avilable_dates_cik:
             print("\tWARNING, No avilable dates for the following symbols: ", no_avilable_dates_cik)
-            print("\t\t Symbols have been removed")
-            is_in = processed_form4_df[self.cik_column].isin(no_avilable_dates_cik)
-            processed_form4_df = processed_form4_df[~is_in]
+            if remove_non_available_symbols:
+                print("\t\t Symbols have been removed")
+                is_in = processed_form4_df[self.cik_column].isin(no_avilable_dates_cik)
+                processed_form4_df = processed_form4_df[~is_in]
 
         processed_form4_df = processed_form4_df.astype(label_dict_astype)
         return processed_form4_df.copy()
 
-    def append_pct_changes_ahead(self, periods_ahead_list, form4_df=None):
+    def append_pct_changes_ahead(self, periods_ahead_list, form4_df=None, remove_non_available_symbols=True):
         processed_form4_df = self.form4_df_0.copy()
         if form4_df is not None:
             processed_form4_df = form4_df.copy()
@@ -91,12 +92,13 @@ class ProcessAppendHistoricalPrices(object):
                 no_avilable_dates_cik.append(cik)
         if no_avilable_dates_cik:
             print("\tWARNING, No avilable dates for the following symbols: ", no_avilable_dates_cik)
-            print("\t\t Symbols have been removed")
-            is_in = processed_form4_df[self.cik_column].isin(no_avilable_dates_cik)
-            processed_form4_df = processed_form4_df[~is_in]
+            if remove_non_available_symbols:
+                print("\t\t Symbols have been removed")
+                is_in = processed_form4_df[self.cik_column].isin(no_avilable_dates_cik)
+                processed_form4_df = processed_form4_df[~is_in]
         return processed_form4_df.copy()
 
-    def append_pct_changes_ahead_in_shifted_dates(self, periods_ahead_list, dates_timedelta_list, form4_df=None):
+    def append_pct_changes_ahead_in_shifted_dates(self, periods_ahead_list, dates_timedelta_list, form4_df=None, remove_non_available_symbols=True):
         """
         dates_shift -> pd.Timedelta, ie: pd.Timedelta("1 days")
         """
@@ -124,9 +126,10 @@ class ProcessAppendHistoricalPrices(object):
                 no_avilable_dates_cik.append(cik)
         if no_avilable_dates_cik:
             print("\tWARNING, No avilable dates for the following symbols: ", no_avilable_dates_cik)
-            print("\t\t Symbols have been removed")
-            is_in = processed_form4_df[self.cik_column].isin(no_avilable_dates_cik)
-            processed_form4_df = processed_form4_df[~is_in]
+            if remove_non_available_symbols:
+                print("\t\t Symbols have been removed")
+                is_in = processed_form4_df[self.cik_column].isin(no_avilable_dates_cik)
+                processed_form4_df = processed_form4_df[~is_in]
         return processed_form4_df.copy()
 
 

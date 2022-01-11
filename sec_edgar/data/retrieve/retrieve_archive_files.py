@@ -13,7 +13,8 @@ def retrieve_and_save_file(row,
                            archive_base_url="https://www.sec.gov/Archives/",
                            path_default_files=os.path.dirname(
                                os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd())))) + '/Data/raw/files',
-                           verbose=True):
+                           verbose=True,
+                           include_year_quarter_in_path=True):
     """
     Retrieve and save archive files at SEC-EDGAR
 
@@ -32,7 +33,9 @@ def retrieve_and_save_file(row,
     if verbose:
         print("\t Retrieve Done, saving file ...")
 
-    directory = os.path.join(path_default_files, os.path.join(str(row.year), row.quarter))
+    directory = path_default_files
+    if include_year_quarter_in_path:
+        directory = os.path.join(directory, os.path.join(str(row.year), row.quarter))
     directory = os.path.join(directory, os.path.join(row.CIK, row.Form_Type))
     if not os.path.exists(directory):
         os.makedirs(directory)

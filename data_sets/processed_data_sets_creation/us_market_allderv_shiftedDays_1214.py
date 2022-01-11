@@ -63,21 +63,12 @@ if __name__ == '__main__':
     # ---------------------------------------------------------------------------------------------------------------
 
     # Processing of 4form files: grouping and define of adjusted transactions ---------------------------------------
-    # TODO: In another file:
-    #   Only Derivative transactions                        (1) -
-    #   Only NonDerivative transactions                     (1) -
     p4ff = Process4FormFiles(form4_df,
                              include_derivative_transaction=True,
                              sub_select_dict={'directOrIndirectOwnership': "D"})
 
     # processed_4form_df_ri = p4ff.get_transactions_adjusted_by_file_names()
     processed_4form_df = p4ff.get_transactions_by_day()
-    # TODO:
-    #   Include n_Shares/SharesOutstanding   (sharesOutstanding comes in alhpavange company overview)
-    #   Include n_Share*price
-    #   Indicator of Growth/Value companies ?
-    #   Do regression ? (in order to see if correlation exist?) (include date?)
-    #       https://risk.edhec.edu/sites/risk/files/EDHEC_Working_Paper_Some_Insiders_Are_Indeed_Smart_Investors.pdf
 
     # ---------------------------------------------------------------------------------------------------------------
 

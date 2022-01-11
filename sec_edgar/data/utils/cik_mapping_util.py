@@ -4,7 +4,7 @@ import pandas as pd
 
 class CikMappingUtil(object):
 
-    def __init__(self, company_ticket_file_path=os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd())))
+    def __init__(self, company_ticket_file_path=os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))))
                                                     + '/Data/company_tickers.csv'):
         self.company_ticket_file_path = company_ticket_file_path
         self.company_ticket_df = pd.read_csv(company_ticket_file_path)
@@ -15,6 +15,13 @@ class CikMappingUtil(object):
         """
         cik = int(cik)
         return self.company_ticket_df[self.company_ticket_df.cik_str == cik].ticker.iloc[0]
+
+    def get_name_for_cik(self, cik):
+        """
+        Integer or string.
+        """
+        cik = int(cik)
+        return self.company_ticket_df[self.company_ticket_df.cik_str == cik].title.iloc[0]
 
     def get_cik_for_symbol(self, symbol):
         return str(self.company_ticket_df[self.company_ticket_df.ticker == symbol].cik_str.iloc[0])

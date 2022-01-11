@@ -123,3 +123,8 @@ if __name__ == '__main__':
     positive = processed_4form_df_market[processed_4form_df_market['transaction_value'] > 0.0]
     print("positive: ", positive['Shifted Price pct_change (5)(5 days 00:00:00)'].mean())
     # TODO: actually plot!
+
+    metrics_df_03, metric_object_dict = pe_4form.eval_metric(performance_metric_ref=PerformanceMetric03,
+                                            pm_kwargs=dict(column_label_eval='Price pct_change (10)',
+                                                           shifted_columns_label_eval=
+                                                           'Shifted Price pct_change (10)(-10 days +00:00:00)'))

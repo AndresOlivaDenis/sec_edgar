@@ -4,7 +4,7 @@ import time
 import warnings
 import numpy as np
 import pandas as pd
-import  matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import xml.etree.ElementTree as ET
 
 from sec_edgar.data.preprocessing.preprocess_master_idx import pre_process_master_idx_content
@@ -68,6 +68,8 @@ def process_form_securities_tables(form_xml_content):
 def pre_process_4form_archive_files(master_idx_contents,
                                     path_default_files=os.path.dirname(os.path.dirname(
                                         os.path.dirname(os.path.dirname(os.getcwd())))) + '/Data/raw/files',
+                                    include_year_quarter_in_path=True,
+                                    sleep_time_scale=1.0,
                                     ):
     master_idx_contents_4form = master_idx_contents[master_idx_contents.Form_Type.isin(['4'])].reset_index(drop=True)
 
@@ -77,7 +79,9 @@ def pre_process_4form_archive_files(master_idx_contents,
         print("\nLoading {}/{} ({:.2f}%)".format(index + 1, len(master_idx_contents_4form),
                                                  100 * (index + 1) / len(master_idx_contents_4form)))
 
-        directory = os.path.join(path_default_files, os.path.join(str(row.year), row.quarter))
+        directory = path_default_files
+        if include_year_quarter_in_path:
+            directory = os.path.join(directory, os.path.join(str(row.year), row.quarter))
         directory = os.path.join(directory, os.path.join(row.CIK, row.Form_Type))
         file_name = row.Filename.split("/")[-1]
         path_file = os.path.join(directory, file_name)
@@ -93,8 +97,10 @@ def pre_process_4form_archive_files(master_idx_contents,
             print("\t File does not exist on path_default_files, retrieving and saving.")
             retrieve_and_save_file(row=row,
                                    path_default_files=path_default_files,
-                                   verbose=True)
+                                   verbose=True,
+                                   include_year_quarter_in_path=include_year_quarter_in_path)
             sleep_time = random.random() * (sleep_interval[1] - sleep_interval[0]) + sleep_interval[0]
+            sleep_time = sleep_time*sleep_time_scale
             print("\t Save complete, going to sleep for about: {} [s]".format(sleep_time))
             time.sleep(sleep_time)
 

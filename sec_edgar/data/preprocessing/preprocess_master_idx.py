@@ -89,6 +89,8 @@ def pre_process_master_idx_content(companies_cik_list,
 if __name__ == '__main__':
 
     companies_cik_list_ = ['320193', '1652044', '50863']
+    companies_cik_list_ = ['50863']
+
     # year_list_ = list(range(1994, 2021, 1))
     year_list_ = list(range(2022, 2023, 1))
     quarter_lists_ = ['QTR1', 'QTR2', 'QTR3', 'QTR4']

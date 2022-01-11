@@ -63,6 +63,8 @@ class PerformanceMetric01(object):
         self.performance_means_series = performance_means_series.copy()
         self.performance_cik_df = performance_cik_df.copy()
 
+        performance_means_series['len'] = len(processed_form4_df_pos)
+
         return performance_means_series
 
 
@@ -98,6 +100,7 @@ class PerformanceMetric02(object):
 
         self.performance_means_series = performance_means_series.copy()
         self.performance_cik_df = performance_cik_df.copy()
+        performance_means_series['len'] = len(processed_form4_df_pos)
 
         return performance_means_series
 
@@ -134,6 +137,8 @@ class PerformanceMetric03(object):
 
         self.performance_means_series = performance_means_series.copy()
         self.performance_cik_df = performance_cik_df.copy()
+
+        performance_means_series['len'] = len(processed_form4_df_pos)
 
         return performance_means_series
 

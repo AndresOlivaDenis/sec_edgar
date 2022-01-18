@@ -145,7 +145,8 @@ def pre_process_4form_archive_files(master_idx_contents,
         except Exception as e:
             warnings.simplefilter("always")
             warnings.warn("\n Exeption raised in preprocessing file. TODO: REVIEW! ", UserWarning)
-            os.rename(path_file, path_file + "_ERROR_ ")
+            if not os.path.isfile(path_file + "_ERROR_ "):
+                os.rename(path_file, path_file + "_ERROR_ ")
 
             sleep_time = 10
             warnings.warn("\n Sleeping for about : {} [s]".format(sleep_time), UserWarning)

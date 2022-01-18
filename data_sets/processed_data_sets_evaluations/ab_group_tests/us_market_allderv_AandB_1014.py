@@ -12,8 +12,6 @@ import pandas as pd
 from sec_edgar.utils.evaluation_metrics import PerformanceMetric01, PerformanceMetric02, PerformanceMetric03
 from sec_edgar.utils.performance_evaluations import PerformanceEvaluations4Form, PerformanceEvaluations4FormYear
 
-pd.set_option('display.width', 1500)      # max table width to display
-
 if __name__ == '__main__':
     # Loading of data set --------------------------------------------------------------------------------------------
     base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))))
@@ -125,3 +123,41 @@ if __name__ == '__main__':
     positive = processed_4form_df_market[processed_4form_df_market['transaction_value'] > 0.0]
     print("positive: ", positive['Shifted Price pct_change (5)(5 days 00:00:00)'].mean())
     # TODO: actually plot!
+
+    post_processed_4form_df = processed_4form_df.copy()
+    # post_processed_4form_df = post_processed_4form_df[post_processed_4form_df.my_derivative_types.isin(['AB', 'B'])]
+    post_processed_4form_df = post_processed_4form_df[post_processed_4form_df['transactionSharesAdjust'] > 0]
+    post_processed_4form_df['Price pct_change (10)'].hist()
+    # TODO: review quantiles
+    #   Review E[X]
+
+
+    def _ecdf(sample):
+        sample = np.atleast_1d(sample)
+        quantiles, counts = np.unique(sample, return_counts=True)
+        cumprob = np.cumsum(counts).astype(np.double) / sample.size
+
+        return quantiles, cumprob
+
+
+    def _get_sub_set_in_ci(quantiles, cumprob, ci=10 / 100):
+        return quantiles[np.logical_and(cumprob > 0.5 * ci, cumprob < 1. - 0.5 * ci)]
+
+    def _get_left_sub_set_in_ci(quantiles, cumprob, ci=10 / 100):
+        return quantiles[cumprob < 1. - ci]
+
+    quantiles, cumprob = _ecdf(post_processed_4form_df['Price pct_change (10)'].values)
+    results_dict = dict()
+    results_dict["E[R|0.05<P(R)<0.95]"] = _get_sub_set_in_ci(quantiles, cumprob, ci=0.05 * 2).mean()
+    results_dict["E[R|0.10<P(R)<0.90]"] = _get_sub_set_in_ci(quantiles, cumprob, ci=0.1 * 2).mean()
+    results_dict["E[R|0.15<P(R)<0.85]"] = _get_sub_set_in_ci(quantiles, cumprob, ci=0.15 * 2).mean()
+    results_dict["E[R|0.20<P(R)<0.80]"] = _get_sub_set_in_ci(quantiles, cumprob, ci=0.2 * 2).mean()
+    results_dict["E[R|0.25<P(R)<0.75]"] = _get_sub_set_in_ci(quantiles, cumprob, ci=0.25 * 2).mean()
+
+    quantiles, cumprob = _ecdf(post_processed_4form_df['Shifted Price pct_change (10)(-10 days +00:00:00)'].values)
+    results_dict_all = dict()
+    results_dict_all["E[R|0.05<P(R)<0.95]"] = _get_sub_set_in_ci(quantiles, cumprob, ci=0.05 * 2).mean()
+    results_dict_all["E[R|0.10<P(R)<0.90]"] = _get_sub_set_in_ci(quantiles, cumprob, ci=0.1 * 2).mean()
+    results_dict_all["E[R|0.15<P(R)<0.85]"] = _get_sub_set_in_ci(quantiles, cumprob, ci=0.15 * 2).mean()
+    results_dict_all["E[R|0.20<P(R)<0.80]"] = _get_sub_set_in_ci(quantiles, cumprob, ci=0.2 * 2).mean()
+    results_dict_all["E[R|0.25<P(R)<0.75]"] = _get_sub_set_in_ci(quantiles, cumprob, ci=0.25 * 2).mean()

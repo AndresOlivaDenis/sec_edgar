@@ -41,9 +41,8 @@ if __name__ == '__main__':
                                                                'BKR', 'BHF'})
 
     companies_cik_list = [cik_mu.get_cik_for_symbol(symbol) for symbol in companies_symbol_list]
+    year_list = [str(year) for year in range(2010, 2020, 1)]
     # year_list = [str(year) for year in range(2015, 2017, 1)]
-    # year_list = [str(year) for year in range(2012, 2015, 1)]
-    year_list = [str(year) for year in range(2010, 2012, 1)]
 
     quarter_lists = ['QTR1', 'QTR2', 'QTR3', 'QTR4']
     master_idx_contents_ = pre_process_master_idx_content(companies_cik_list=companies_cik_list,
@@ -70,7 +69,6 @@ if __name__ == '__main__':
 
     # processed_4form_df_ri = p4ff.get_transactions_adjusted_by_file_names()
     processed_4form_df = p4ff.get_transactions_by_day()
-
     # ---------------------------------------------------------------------------------------------------------------
 
     # Processing of 4form files: Append of Historical Data ------------------------------------------------------------
@@ -80,18 +78,12 @@ if __name__ == '__main__':
     pahp_ri_day = ProcessAppendHistoricalPrices(form4_df=processed_4form_df.copy(),
                                                 look_up_path=path_asset_historical_data,
                                                 company_ticket_file_path=path_company_ticket_file)
-    processed_4form_df = pahp_ri_day.append_prices_shifted_ahead(periods_ahead_list=[0, 5, 20])
-    processed_4form_df = pahp_ri_day.append_pct_changes_ahead(periods_ahead_list=[5, 10, 21, 63, 126, 252],
+    processed_4form_df = pahp_ri_day.append_prices_shifted_ahead(periods_ahead_list=[0, 5, 15])
+    processed_4form_df = pahp_ri_day.append_pct_changes_ahead(periods_ahead_list=[5, 10, 15, 21, 31, 42, 63, 126, 252],
                                                               form4_df=processed_4form_df)
 
     # TODO: remove and create one without this
     # Prices and pct_changes ahead (shifted days) ------------------------------
-    # processed_4form_df = pahp_ri_day.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[21],
-    #                                                                            dates_timedelta_list=[
-    #                                                                                pd.Timedelta("21 days"),
-    #                                                                                pd.Timedelta("-21 days")],
-    #                                                                            form4_df=processed_4form_df)
-
     pahp_ri_day_sahd = ProcessAppendHistoricalPrices(form4_df=processed_4form_df.copy(),
                                                      look_up_path=path_asset_historical_data,
                                                      company_ticket_file_path=path_company_ticket_file)
@@ -115,6 +107,27 @@ if __name__ == '__main__':
                                                                                         pd.Timedelta("15 days"),
                                                                                         pd.Timedelta(
                                                                                             "-15 days")],
+                                                                                    form4_df=processed_4form_df,
+                                                                                    remove_non_available_symbols=False)
+
+    processed_4form_df = pahp_ri_day_sahd.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[21],
+                                                                                    dates_timedelta_list=[
+                                                                                        pd.Timedelta("21 days"),
+                                                                                        pd.Timedelta("-21 days")],
+                                                                                    form4_df=processed_4form_df,
+                                                                                    remove_non_available_symbols=False)
+
+    processed_4form_df = pahp_ri_day_sahd.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[31],
+                                                                                    dates_timedelta_list=[
+                                                                                        pd.Timedelta("31 days"),
+                                                                                        pd.Timedelta("-31 days")],
+                                                                                    form4_df=processed_4form_df,
+                                                                                    remove_non_available_symbols=False)
+
+    processed_4form_df = pahp_ri_day_sahd.append_pct_changes_ahead_in_shifted_dates(periods_ahead_list=[42],
+                                                                                    dates_timedelta_list=[
+                                                                                        pd.Timedelta("42 days"),
+                                                                                        pd.Timedelta("-42 days")],
                                                                                     form4_df=processed_4form_df,
                                                                                     remove_non_available_symbols=True)
     # ---------------------------------------------------------------------------------------------------------------

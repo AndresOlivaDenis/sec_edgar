@@ -180,3 +180,19 @@ if __name__ == '__main__':
 
     rt4fp = RealTime4FormProcessing(cik_list=companies_cik_list)
     form_index_fillings_df = rt4fp.form_index_fillings_df
+    print("rt4fp.get_latest_positive_transaction_day_dict(): \n", rt4fp.get_latest_positive_transaction_day_dict())
+    print("rt4fp.get_today_positive_transactions_cik_list(): \n", rt4fp.get_today_positive_transactions_cik_list())
+
+    print("rt4fp._get_latest_transaction_day_dict(): \n", rt4fp._get_latest_transaction_day_dict())
+    print("rt4fp._get_today_transactions_cik_list(): \n", rt4fp._get_today_transactions_cik_list())
+
+
+    # TODO:
+    #   - https://www.mql5.com/en/docs/integration/python_metatrader5
+    #           tests python integration, initialize, logins
+    #           Take a look at library and scripts (some example scripts have interesting checks!)
+    #   - Compute cost estimates for 10days in market per symbol.
+    #       (objective: filter tickers with hight relative costs & evaluate if 10days is good or maybe to extend to 21)
+    #       Use 14 days for swap (since on fridays is x3)
+    #       Consider comissions (0.02USD per lot)
+    #       Add min size (for latter filtrate, since minimall volume is 10, and contract size=1, some stocks are too expensive)

@@ -148,6 +148,9 @@ class RealTime4FormProcessing(object):
 
     @staticmethod
     def post_process_4form_archive_files(processed_4form_df):
+        """
+        Include here future improvements
+        """
         post_processed_form4_df = processed_4form_df.copy()
         post_processed_form4_df = post_processed_form4_df[post_processed_form4_df.my_derivative_types.isin(['AB', 'B'])]
         post_processed_form4_df = post_processed_form4_df[post_processed_form4_df['transactionSharesAdjust'] > 0]
@@ -171,8 +174,11 @@ class RealTime4FormProcessing(object):
         return None
 
     def get_today_positive_transactions_cik_list(self):
+        return self.get_day_positive_transactions_cik_list(date_to_eval=datetime.today())
+
+    def get_day_positive_transactions_cik_list(self, date_to_eval):
         return [cik for cik, day in self.get_latest_positive_transaction_day_dict().items()
-                if day.strftime('%Y_%m_%d') == datetime.today().strftime('%Y_%m_%d')]
+                if day.strftime('%Y_%m_%d') == date_to_eval.strftime('%Y_%m_%d')]
 
 
 if __name__ == '__main__':

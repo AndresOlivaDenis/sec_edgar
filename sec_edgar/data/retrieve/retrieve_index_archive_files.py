@@ -15,7 +15,7 @@ headers = {'User-Agent': 'Individual Andres Oliva andresolivadenis@gmail.com',
            'Host': 'www.sec.gov'}
 
 # year_list = list(range(2021, 2022, 1))
-year_list = list(range(2021, 2023, 1))
+year_list = list(range(2022, 2023, 1))
 quarter_lists = ['QTR1', 'QTR2', 'QTR3', 'QTR4']
 archive_file_list = ["xbrl.idx", "master.idx"]  # ["company.idx", "xbrl.idx", "master.idx", "crawler.idx"]
 

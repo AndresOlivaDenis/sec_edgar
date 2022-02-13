@@ -136,6 +136,21 @@ class AVHistoricalDataRequest(object):
         shifted_series.index = dates
         return shifted_series
 
+    def get_shifted_behind_series(self, dates, periods_behind, column='close', name=None):
+        """
+        Returns shifted ahead (or "futures") series values
+        """
+        periods = abs(periods_behind)  # To avoid confusion!! Convention 0 -> most recent, -1 -> last
+
+        adjusted_dates = self.interpolate_missing_dates(dates)
+        # shifted_series = self.data_df.loc[adjusted_dates, column].shift(periods)
+        shifted_series = self.data_df.shift(-periods).loc[adjusted_dates, column]
+
+        if name is None:
+            shifted_series.name = column + " (-{})".format(periods)
+        shifted_series.index = dates
+        return shifted_series
+
     def _get_pct_change_ahead_series(self, dates, periods_ahead, column='close', name=None):
         """
         Returns pct_change with shifted ahead (or "futures") series values
@@ -168,6 +183,21 @@ class AVHistoricalDataRequest(object):
         shifted_series.index = dates
         return shifted_series
 
+    def get_pct_change_behind_series(self, dates, periods_behind, column='close', name=None):
+        """
+        Returns pct_change with shifted ahead (or "futures") series values
+        """
+        periods = abs(periods_behind)  # To avoid confusion!! Convention 0 -> most recent, -1 -> last
+
+        adjusted_dates = self.interpolate_missing_dates(dates)
+        shifted_series = -np.log(self.data_df[[column]]).diff(-periods).loc[adjusted_dates, column]
+        shifted_series = np.exp(shifted_series) - 1.0
+        shifted_series = -shifted_series
+        if name is None:
+            shifted_series.name = column + " pct_change (-{})".format(periods)
+        shifted_series.index = dates
+        return shifted_series
+
 
 class MultiSymbolAVHistoricalDataRequest(object):
 
@@ -189,7 +219,15 @@ if __name__ == '__main__':
                                                   look_up_path=path_default_files,
                                                   update_in_look_up_path=True)
 
-    "3TYL"
+    aal_historical_data = AVHistoricalDataRequest(symbol="AAL",
+                                                  api_key=api_key_,
+                                                  look_up_path=path_default_files,
+                                                  update_in_look_up_path=True)
+
+    sp500_ = AVHistoricalDataRequest(symbol="GSPC",
+                            api_key=api_key_,
+                            look_up_path=path_default_files,
+                            update_in_look_up_path=True)
 
     data_df_ = amd_historical_data.data_df.copy()
 

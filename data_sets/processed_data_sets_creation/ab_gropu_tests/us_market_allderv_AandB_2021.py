@@ -17,7 +17,7 @@ if __name__ == '__main__':
     base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))))
 
     path_processed_datasets = base_path + '/Data/processed_datasets/'
-    ref_file_name = 'us_market_allderv_shiftedDays_2021.py'
+    ref_file_name = 'us_market_allderv_2021.py'
     file_name = path_processed_datasets + ref_file_name + ".csv"
     processed_4form_df = pd.read_csv(file_name, index_col=0)
     # ----------------------------------------------------------------------------------------------------------------

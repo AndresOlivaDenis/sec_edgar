@@ -38,6 +38,7 @@ class RealTimeRequestMt5(AVHistoricalDataRequest):
                 raise NoAvailableDate("", self.symbol, date)
 
             shifted_list.append(rates_frame.iloc[-1][column])
+        self.mt5_connector.shutdown()
 
         shifted_series = pd.Series(shifted_list)
         if name is None:
@@ -68,6 +69,7 @@ class RealTimeRequestMt5(AVHistoricalDataRequest):
 
             shifted_list.append((rates_frame.iloc[-1][column] - rates_frame.iloc[0][column]) / rates_frame.iloc[0][
                column])
+        self.mt5_connector.shutdown()
 
         shifted_series = pd.Series(shifted_list)
         if name is None:
@@ -95,6 +97,7 @@ class RealTimeRequestMt5(AVHistoricalDataRequest):
                 raise NoAvailableDate("", self.symbol, date)
 
             shifted_list.append(rates_frame.iloc[0][column])
+        self.mt5_connector.shutdown()
 
         shifted_series = pd.Series(shifted_list)
         if name is None:
@@ -123,6 +126,8 @@ class RealTimeRequestMt5(AVHistoricalDataRequest):
 
             shifted_list.append((rates_frame.iloc[-1][column] - rates_frame.iloc[0][column]) / rates_frame.iloc[-1][
                 column])
+        self.mt5_connector.shutdown()
+
         shifted_series = pd.Series(shifted_list)
         if name is None:
             shifted_series.name = column + " (-{})".format(periods)

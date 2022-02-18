@@ -28,9 +28,10 @@ if __name__ == '__main__':
     # ----------------------------------------------------------------------------------------------------------------
 
     # ModelDF --------------------------------------------------------------------------------------------
-    model_column = 'Price pct_change (21)'
+    model_column = 'Price pct_change (15)'
     benc_column = 'GSPC Price pct_change (15)'
-    processed_form4_df_model = PostProcessPosChangeLast.post_process_df(processed_4form_df)
+    upper_interval = -0.075
+    processed_form4_df_model = PostProcessPosChangeLast.post_process_df(processed_4form_df, upper_interval=upper_interval)
 
     print("\n processed_form4_df_model vs processed_form4_df_pos['GSPC Price pct_change (15)']")
 
@@ -51,7 +52,7 @@ if __name__ == '__main__':
     # split_by_cik_grouping ------------------------------------------------------------------------------------------
     form4_df_cik_grouping_dict_ = ds4fs.split_by_cik_grouping(n_sub_set=4)
 
-    form4_df_cik_grouping_dict_post_proc = {ds_name: PostProcessPosChangeLast.post_process_df(form4_df_cik)
+    form4_df_cik_grouping_dict_post_proc = {ds_name: PostProcessPosChangeLast.post_process_df(form4_df_cik, upper_interval=upper_interval)
                                             for ds_name, form4_df_cik in form4_df_cik_grouping_dict_.items()}
 
     m1_ds_dict = Models4FormPerformanceEval.model_4form_df_dict_to_series(form4_df_cik_grouping_dict_post_proc,
@@ -71,7 +72,7 @@ if __name__ == '__main__':
     # split by years -------------------------------------------------------------------------------------------------
     form4_df_years_dict_ = ds4fs.split_by_years()
 
-    form4_df_years_dict_post_proc = {ds_name: PostProcessPosChangeLast.post_process_df(form4_df_year)
+    form4_df_years_dict_post_proc = {ds_name: PostProcessPosChangeLast.post_process_df(form4_df_year, upper_interval=upper_interval)
                                      for ds_name, form4_df_year in form4_df_years_dict_.items()}
 
     m1_ds_dict = Models4FormPerformanceEval.model_4form_df_dict_to_series(form4_df_years_dict_post_proc,
@@ -92,6 +93,10 @@ if __name__ == '__main__':
     # TODO: see results in this
     processed_4form_df_adjusted = DataSetsAdjustments.limit_n_max_per_cik(processed_4form_df, n_max_per_cik=None)
 
+    dates_index = pd.DatetimeIndex(processed_form4_df_model.Date_Filed)
+    year_months_dates = dates_index.year.astype(str) + "/" + dates_index.month.astype(str)
+    processed_form4_df_model['year_months_dates'] = year_months_dates
+    year_mont_counts_series = processed_form4_df_model.groupby('year_months_dates').CIK.count()
     # TODO: review is ok, seems to good to be true
 
     # TODO: build ds without AandB us_market_allderv_AandB_1021

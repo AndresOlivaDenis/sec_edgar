@@ -29,6 +29,7 @@ class RealTime4FormProcessingModelOne(RealTime4FormProcessing):
                  symbols_info_interface,
                  period_behind,
                  upper_interval,
+                 edgar_tickers_file_path,
                  data_path=os.path.dirname(os.path.dirname(
                      os.path.dirname(os.getcwd()))) + '/real_time_data/',
                  start_date_time_delta=pd.to_timedelta('90 days'), sleep_time_scale=0.25,
@@ -76,8 +77,7 @@ class RealTime4FormProcessingModelOne(RealTime4FormProcessing):
             msj += "Post-Processing 4form archive files " + "-" * 55
             print(msj)
 
-        # TODO: change -> include parameters of stock price processing on __init__
-        edgar_tickers_file_path = data_path + 'company_tickers.csv'
+        # edgar_tickers_file_path = data_path + 'company_tickers.csv'
         # self.post_processed_form4_df = self.post_process_4form_archive_files(self.processed_form4_df.copy())
         self.post_processed_form4_df = self.post_process_pct_change_behind_4form_archive_files(
             self.processed_form4_df.copy(),
@@ -148,17 +148,6 @@ class RealTime4FormProcessingModelOne(RealTime4FormProcessing):
         return day_positive_transactions_cik_list
 
 
-# TODO: order returned postive_transaction by greatest negative price change? (Done!)
-
-# TODO: validates:
-#   Validate real time computed values (if are as expected)
-#       If positive transactions                                (Done!)
-#       If only A type
-#       If negative pct_change in latest date                   (Done!)
-#   And validate: vs performance evaluations processed df!
-#       Eval profrmance on recent, and see that they coincide!! (Done!)
-
-
 if __name__ == '__main__':
     mt5_connector_ = ConnectorOne()
     sci = StocksSymbolInfoInterface(mt5_terminal_connector=mt5_connector_)
@@ -170,7 +159,9 @@ if __name__ == '__main__':
                                             mt5_connector=mt5_connector_,
                                             symbols_info_interface=sci,
                                             period_behind=21,
-                                            upper_interval=-0.05)
+                                            upper_interval=-0.05,
+                                            edgar_tickers_file_path=os.path.dirname(os.path.dirname(
+                     os.path.dirname(os.getcwd()))) + '/real_time_data/' + 'company_tickers.csv')
 
     print("rt4fp.get_latest_positive_transaction_day_dict(): \n", rt4fp.get_latest_positive_transaction_day_dict())
     print("rt4fp.get_today_positive_transactions_cik_list(): \n", rt4fp.get_today_positive_transactions_cik_list())

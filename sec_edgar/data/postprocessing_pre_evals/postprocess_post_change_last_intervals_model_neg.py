@@ -28,15 +28,19 @@ class PostProcessPosChangeLast(object):
     @staticmethod
     def post_process_df(form4_df,
                         # shifted_price_column='Price pct_change (-15)',
-                        behind_price_column='Price pct_change (-21)',
-                        upper_interval=-0.075,
+                        behind_price_column='Price pct_change (-21)',   # 'Price pct_change (-31)'
+                        upper_interval=None,  #  -0.05,  -0.1 (both seems good!)
+                        lower_interval=0.0,  # 0.1
                         ):
         form4_df_post_proc = form4_df.copy()
         # form4_df_post_proc = form4_df_post_proc[form4_df_post_proc.my_derivative_types.isin(['AB', 'B'])]
-        # form4_df_post_proc = form4_df_post_proc[form4_df_post_proc.my_derivative_types.isin(['B', 'A'])]
         form4_df_post_proc = form4_df_post_proc[form4_df_post_proc.my_derivative_types.isin(['A'])]
-        form4_df_post_proc = form4_df_post_proc[form4_df_post_proc['transactionSharesAdjust'] > 0.]
-        form4_df_post_proc = form4_df_post_proc[form4_df_post_proc[behind_price_column] < upper_interval]
+        form4_df_post_proc = form4_df_post_proc[form4_df_post_proc['transactionSharesAdjust'] < 0.]
+        if upper_interval is not None:
+            form4_df_post_proc = form4_df_post_proc[form4_df_post_proc[behind_price_column] < upper_interval]
+        if lower_interval is not None:
+            form4_df_post_proc = form4_df_post_proc[form4_df_post_proc[behind_price_column] > lower_interval]
+
         return form4_df_post_proc
 
 

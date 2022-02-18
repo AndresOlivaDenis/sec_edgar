@@ -44,19 +44,37 @@ if __name__ == '__main__':
     info_msj = "\nComputing and processing admissible trading symbols"
     print(info_msj)
 
-    sci = StocksSymbolInfoInterface(mt5_connector)
+    # CUrrent data ------------------------------------------------------------
+    companies_cik_list = []
+    raw_files_path = base_path + "/Data/raw/files/"
+    for year in os.listdir(raw_files_path):
+        year_path = raw_files_path + year + "/"
+        for quarter in os.listdir(year_path):
+            quarter_path = year_path + quarter + "/"
+            companies_cik_list += os.listdir(quarter_path)
+    companies_cik_list = list(set(companies_cik_list))
 
-    sci_admissible_symbols = sci.compute_admissible_symbols(relative_cost_threeshold=-0.06,
-                                                            investing_balance=1000,
-                                                            in_market_days=15,
-                                                            cost_threeshold_in_years=True)
+    # companies_cik_list Request historical data pre
+    companies_cik_list_av_avialable, companies_cik_list_av_non_avialable = [], []
+    for cik in companies_cik_list:
+        try:
+            AVHistoricalDataRequest(symbol=cik_mu.get_symbol_for_cik(cik),
+                                    api_key="NIAI6K1QQ0KEXACB",
+                                    look_up_path=base_path + '/Data/asset_historical_data',
+                                    update_in_look_up_path=True)
+            companies_cik_list_av_avialable.append(cik)
+        except Exception as e:
+            companies_cik_list_av_non_avialable.append(cik)
 
-    symbol_name_list = list(sci_admissible_symbols.index)
-    symbols_match_df = sci.match_symbols_name_with_edgar_cik_id(symbol_name_list=symbol_name_list,
-                                                                edgar_tickers_file_path=edgar_tickers_file_path)
+    companies_cik_list_ = companies_cik_list.copy()
+    print("companies_cik_list_av_non_avialable: ", companies_cik_list_av_non_avialable)
+    print(" {}/{} ".format(len(companies_cik_list_av_non_avialable), len(companies_cik_list_)))
+    companies_cik_list = companies_cik_list_av_avialable.copy()
 
-    companies_cik_list = symbols_match_df.cik.to_list()
-    year_list = [str(year) for year in range(2015, 2022, 1)]
+    # raise ValueError("Just testing")
+    # ------------------------------------------------------------------------------
+
+    year_list = [str(year) for year in range(2010, 2022, 1)]
     # year_list = [str(2021)]
 
     # year_list = [str(year) for year in range(2015, 2017, 1)]
@@ -93,13 +111,9 @@ if __name__ == '__main__':
     path_asset_historical_data = base_path + '/Data/asset_historical_data'
 
     # Prices and pct_changes ahead: ------------------------------
-    mt5_connector_ = ConnectorOne()
-    sci = StocksSymbolInfoInterface(mt5_terminal_connector=mt5_connector_)
-
-    pahp_ri_day = RealTimeMt5StockPriceProcessing(form4_df=processed_4form_df.copy(),
-                                                  mt5_connector=mt5_connector_,
-                                                  symbols_info_interface=sci,
-                                                  edgar_tickers_file_path=base_path + '/Data/company_tickers.csv')
+    pahp_ri_day = ProcessAppendHistoricalPrices(form4_df=processed_4form_df.copy(),
+                                                look_up_path=path_asset_historical_data,
+                                                company_ticket_file_path=path_company_ticket_file)
     print("append_prices_shifted_ahead")
     processed_4form_df = pahp_ri_day.append_prices_shifted_ahead(periods_ahead_list=[5, 15],
                                                                  remove_non_available_symbols=False)
@@ -115,7 +129,7 @@ if __name__ == '__main__':
                                                                   remove_non_available_symbols=False)
     print("append_pct_changes_behind")
     processed_4form_df = pahp_ri_day.append_pct_changes_behind(periods_behind_list=[5, 10, 15, 21, 31, 42],
-                                                                 form4_df=processed_4form_df,
+                                                               form4_df=processed_4form_df,
                                                                remove_non_available_symbols=True)
 
     # Bench pct_changes ----------------------------------------------

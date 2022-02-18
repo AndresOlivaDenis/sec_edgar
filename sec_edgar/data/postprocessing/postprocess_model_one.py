@@ -28,7 +28,7 @@ class PostProcessPosChangeLast(object):
     @staticmethod
     def post_process_df(form4_df,
                         behind_price_column='Price pct_change (-21)',   # 'Price pct_change (-31)'
-                        upper_interval=-0.15,  #  -0.025, -0.05, -0.075, -0.1 (both seems good!) (it will depend on frequency)
+                        upper_interval=-0.05,  #  -0.025, -0.05, -0.075, -0.1 (both seems good!) (it will depend on frequency)
                         ):
         """
         upper_interval=-0.025, -0.05, -0.075, -0.1 all seems to be good
@@ -36,6 +36,7 @@ class PostProcessPosChangeLast(object):
         """
         form4_df_post_proc = form4_df.copy()
         # form4_df_post_proc = form4_df_post_proc[form4_df_post_proc.my_derivative_types.isin(['AB', 'B'])]
+        # form4_df_post_proc = form4_df_post_proc[form4_df_post_proc.my_derivative_types.isin(['B', 'A'])]
         form4_df_post_proc = form4_df_post_proc[form4_df_post_proc.my_derivative_types.isin(['A'])]
         form4_df_post_proc = form4_df_post_proc[form4_df_post_proc['transactionSharesAdjust'] > 0.]
         form4_df_post_proc = form4_df_post_proc[form4_df_post_proc[behind_price_column] < upper_interval]
@@ -121,6 +122,17 @@ if __name__ == '__main__':
 
     # TODO: see results in this
     processed_4form_df_adjusted = DataSetsAdjustments.limit_n_max_per_cik(processed_4form_df, n_max_per_cik=None)
+
+    import numpy as np
+    # Bowley’s seven-figure summary:
+    df_descriptive_stats = processed_form4_df_model[['Price pct_change (15)']].describe(percentiles = [0.1, 0.25, 0.5, 0.75, 0.9])
+
+    # Interquartile range
+    df_descriptive_stats.loc['iqr'] = df_descriptive_stats.loc['75%'] - df_descriptive_stats.loc['25%']
+
+    # Upper and Lower Fences
+    df_descriptive_stats.loc['lowerFence'] = df_descriptive_stats.loc['25%'] - 1.5 * df_descriptive_stats.loc['iqr']
+    df_descriptive_stats.loc['upperFence'] = df_descriptive_stats.loc['75%'] + 1.5 * df_descriptive_stats.loc['iqr']
 
     # TODO: review is ok, seems to good to be true
 

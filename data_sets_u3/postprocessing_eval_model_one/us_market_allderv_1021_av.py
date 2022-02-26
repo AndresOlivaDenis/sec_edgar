@@ -96,7 +96,12 @@ if __name__ == '__main__':
     dates_index = pd.DatetimeIndex(processed_form4_df_model.Date_Filed)
     year_months_dates = dates_index.year.astype(str) + "/" + dates_index.month.astype(str)
     processed_form4_df_model['year_months_dates'] = year_months_dates
-    year_mont_counts_series = processed_form4_df_model.groupby('year_months_dates').CIK.count()
+
+    year_month_df = pd.DataFrame()
+    year_month_df['count'] = processed_form4_df_model.groupby('year_months_dates').CIK.count()
+    year_month_df[model_column] = processed_form4_df_model.groupby('year_months_dates')[model_column].mean()
+
+    year_month_df[year_month_df['count'] < 10][model_column].mean()
     # TODO: review is ok, seems to good to be true
 
     # TODO: build ds without AandB us_market_allderv_AandB_1021
